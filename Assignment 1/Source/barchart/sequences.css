@@ -1,0 +1,68 @@
+body {
+  font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+#projection-menu {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.name:hover .P_00_14_JR {  
+  fill: #618bc5;
+}
+.name:hover .P_15_24_JR {  
+  fill: #6e4988;
+}
+.name:hover .P_25_44_JR {  
+  fill: #a03a2f;
+}
+.name:hover .P_45_64_JR { 
+  fill: #d0570e;
+}
+.name:hover .P_65_EO_JR {  
+  fill: #ffa333;
+}
+
+.P_00_14_JR {
+  fill: #98abc5;
+}
+.P_15_24_JR {
+  fill: #7b6888;
+}
+.P_25_44_JR {
+  fill: #a05d56;
+}
+.P_45_64_JR {
+  fill: #d0743c;
+}
+.P_65_EO_JR {
+  fill: #ff8c00;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.legend line {
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#tooltip { 
+  background-color: white;
+  padding: 3px 5px;
+  border: 1px solid black;
+  text-align: center;
+}
