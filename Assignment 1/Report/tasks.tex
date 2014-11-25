@@ -1,18 +1,18 @@
-\section{Tasks}
+\section{Tasks}\label{sec:tasks}
 
 In this section we define the tasks that we would like to perform. That is, we describe what information we would like to retrieve from the given data set. Before we define these tasks we provide a framework (or design space) for formulating specific tasks.
 
 \subsection{Framework for Defining Tasks}
 In order to formulate a nice and clear visualization task, we define a framework for doing this as described in \cite{schulz2013design}. Here we distinguish between five different dimensions for each task, namely the \textit{goal} (why is the task pursued), \textit{means} (how is the task carried out), \textit{characteristics}(what does the task seek), \textit{target} (on which part of the data is the task carried out) and \textit{cardinality} (on how many instances is the task carried out). We shortly explain these five aspects in some more detail.
 
-For the goal of the task we distinguish between three different types of analyses. We can have an exploratory analysis (or undirected search) that aims at deriving an hypothesis from an unknown data set, a confirmatory analysis ()
+For the goal of the task we distinguish between three different types of analyses. We can have an exploratory analysis (or undirected search) that aims at deriving an hypothesis from an unknown data set, a confirmatory analysis (directed search)
 
 \todo{!}...
 
 \subsection{Chosen Tasks}
 With this common framework for formulating visualization tasks defined, we move on to defining the actual tasks we want to perform on our data set about the Dutch municipalities. We mainly distinguish between two different tasks, of which the first one will be divided into two subtasks.
 
-\subsubsection{Taks 1}
+\subsubsection{Task 1}\label{sec:task1}
 The first task that we define aims at discovering interesting properties of the given data set, as well as confirming expected properties. This means that this task is actually rather broad, and numerous specific questions can be formulated from it. However, we will define two basic (sub)tasks for analyzing the entire data set, namely\textit{a)'analyze the relations between the different attributes'} in the set, and \textit{b) 'compare the attribute values of the different municipalities with each other'}. The subset of attributes on which we will perform both of these tasks will be the same. This subset will consist of the attributes \texttt{OAD}, \texttt{STED}, \texttt{AANT\_INW}, \texttt{BEV\_DICHTH}, \texttt{AANTAL\_HH}, \texttt{P\_EENP\_HH}, and \texttt{OPP\_TOT}. For convenience we will call this set of attributes $S_{attr}$.
 
 When formally defining task 1a, we observe that we adopt an \textit{exploratory} approach, as we aim at \textit{searching} interesting \textit{relations} between different data set attributes. From this we can (partly) derive the first three dimensions for our 5-tuple task description. The forth dimensions, the target has also been specified already, namely $s_{attr}$. This leaves us with the cardinality. Because we want to discover general relations, we want to look at all data instances (municipalities). However, some relations between attributes may be very obvious. We will therefore also be looking for \textit{confirmation} of these obvious relations, and want to detect possible abnormalities or inconsistencies in them, such as \textit{outliers}. The resulting formal task description then looks like this:
@@ -23,14 +23,14 @@ For task 1b we can define a somewhat similar task. The main difference is now th
 
 (exploratory|confirmatory, comparison, outliers|clusters, $S_{attr}$, all)
 
-Specific questions that we could pose for the first of these two subtasks is for instance 'is there a negative relation between the attributes \texttt{AANT\_INW} and \texttt{BEV\_DICHTH}?'. If we think about this for a minute in advance, we may expect that this will indeed be the case. Hence this would be a typical question where we try to confirm our hypothesis, and look for data objects that do not adhere to this. A much more general and exploratory question would be 'which attributes have a typical positive or negative relation with each other?'. Again we can define some expected relations, such as a negative relation between \texttt{OAD} and \texttt{STED}. However, this question really aims for elaborate (though high level) analysis of the data.
+Specific questions that we could pose for the first of these two subtasks is for instance 'is there a positive relation between the attributes \texttt{AANT\_INW} and \texttt{BEV\_DICHTH}?'. If we think about this for a minute in advance, we may expect that this will indeed be the case. Hence this would be a typical question where we try to confirm our hypothesis, and look for data objects that do not adhere to this. A much more general and exploratory question would be 'which attributes have a typical positive or negative relation with each other?'. Again we may define some expected relations, such as a negative relation between \texttt{OAD} and \texttt{STED}. However, this question really aims for elaborate (though high level) analysis of the data.
 
 For task 1b we can also define a question of which we can already guess the answer. We could for instance confirm that the four largest cities in the Netherlands score the highest on the \texttt{AANT\_INW} attribute. Furthermore we may expect these values to be rather significantly larger than those of the other municipalities. Finally we may again pose a general, exploratory question in the form of 'how are the attribute values of the municipalities distributed for a certain attribute, and can we explain this distribution?'.
 
 
 
 
-\subsubsection{Taks 2}
+\subsubsection{Task 2}\label{sec:task2}
 In this task we search for confirmation to a specific question.
 This question is formulated based on a hypothesis on which we seek validation.
 Once the question is answered it can be used to support the hypotheses.\\
@@ -45,4 +45,4 @@ The specific question can be described as a formal task description:\\
 \\
 The formal task describes that the user is searching confirmation among all available 65+-percentage attribute values and the 20- till 64-percentage attribute values, this last attribute is created with a combination of different percentage attributes.
 The task is confirmatory, so the user knows what he is looking for and seeking confirmation to what he wants to prove.
-The user is looking at low-level data characteristics (localization), this means no complex patterns in the data but simply searching for the high valued attribute values in the data objects (municipalities).
+The user is looking at low-level data characteristics (localization), this means no complex patterns in the data but simply searching for the high valued attribute values in the data objects (municipalities). 
