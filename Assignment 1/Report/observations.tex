@@ -7,26 +7,37 @@
 
 task 1a
 - taking some general attributes such as those in $S_{attr}$ mainly show rather obvious relations:
-    > AANTAL_INW == AANTAL_HH
-    > OPP_TOT inverse BEV_DICHTH
-    > STED inverse OAD
+    > \texttt{AANTAL\_INW} == \texttt{AANTAL\_HH}
+    > \texttt{OPP\_TOT} inverse \texttt{BEV\_DICHTH}
+    > \texttt{STED} inverse \texttt{OAD}
 - quite some attributes with a few outliers that mess up the scale of the axis
-OPP_TOT, OAD, AANTAL_INW, AANTAL_HH
+\texttt{OPP\_TOT}, \texttt{OAD}, \texttt{AANTAL\_INW}, \texttt{AANTAL\_HH}
     this makes it harder to detect relations between the attributes of the more general municipalities, because they lie very close to each other on the axis.
+
+Let us now the questions we posed in the section Tasks,
+- answers to questions: \texttt{AANT\_INW} <-> \texttt{BEV\_DICHTH}: Súdwest-Fryslân, Lelystad, Haarlemmermeer, Apeldoorn, Ede, Emmen do not adhere
 
 
 task 1b
-- again because the scaling, it also becomes harder to compare municipalities 
-OPP_TOT, OAD, AANTAL_HH,
+- again because the scaling, it also becomes harder to compare municipalities
+\texttt{OPP\_TOT}, \texttt{OAD}, \texttt{AANTAL\_HH},
 -> con: outliers rack up the scaling -> solution: scale the axes to selection
-- student cities have highest percentage of single households (P_EENP_HH)
-- municipalicites with low STED value fluctuate more on the other attributes
+- student cities have highest percentage of single households (\texttt{P\_EENP\_HH})
+- municipalicites with low \texttt{STED} value fluctuate more on the other attributes
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/para_outliers.png}
-    \caption{Outliers in the Parallel Coordinate Plot}
-    \label{fig:para_outliers}
+    \captionsetup{justification=centering,margin=2cm}
+    \begin{subfigure}[t]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{img/pcp_STED1.png}
+        \caption{ }
+    \end{subfigure}
+    \begin{subfigure}[t]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{img/pcp_STED5.png}
+        \caption{ }
+    \end{subfigure}
+    \label{fig:pcp_sted}
+    \caption{Parallel Coordinate Plots highlighting the municipalities with a \texttt{STED} value of 1 (a), and a \texttt{STED} value of 5 (b)}
 \end{figure}
 
 \subsection{Observations Task 2}
