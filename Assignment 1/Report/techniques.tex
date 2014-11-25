@@ -7,28 +7,26 @@ Because the tasks 1a and 1b are similar in the sense that the aim at observing q
 
 
 \subsection{techniques for task 2}
-- bar chart
- - absolute vergelijken
- - niet de relaties tot elkaar mbt percentages
+Unlike the first task, this task has only a few attributes that combined is exactly one hundred percent for each municipality.
+So no complex visualizations are needed, simple visualization will suffice.
+The biggest challenge for a good visualization is the amount of municipalities, there are a lot.
+So a pie chart or sunburst cannot be used because it will be completely unreadable.
+The data has no hierarchical structure, so the sunburst will at most only have two levels.
 
-- normalized bar chart
- - eenvoudig vergelijken
+A normalized bar chart can be used to visualize the data.
+The proportion of aging inhabitants for each municipality is visible at once, this gives a good overview of the total aging population.
+The data can also be sorted on the 65+-percentage to show the municipality with the highest aging population.
+With a tooltip the exact percentage of each group can be given per municipality.
+A normal bar chart will result in the same visualization as the normalized bar chart, because the attributes are percentages of each group.
+But we could use the inhabitants amount per municipality to show the actual number of aging population.
+With this visualization the absolute values are show for each municipality.
+If the data is sorted on the 65+-percentage, it will give insight wether the aging percentage is higher in bigger cities.
+With this bar chart it will be hard to get a overview of the total aging population.
+We will implement a combination of both bar charts, we think this way the user gets the best of both worlds.
 
-- choropleth map
- - eenvoudig vergelijken
- - moeilijk kleuren onderscheiden
-
-- scatter plot
-
-- sunburst
- - teveel gemeenten
- - geen hierarchische data
-
-- pyramid
- - alleen top 10?
-
-
-\todo{optional techniques}
-\todo{pro cons}
-\todo{argueing for chosen technique}
-
+The final visualization technique we will implement for the task is a choropleth map.
+If the aging population of a municipality is high a dark shade of a color is used, if it is low a light shade is used.
+This will give a quick insight of the municipalities that have a high aging population.
+An extra bar chart can be shown when the mouse is hovered over a municipality, which will give more detail.
+The bar chart shows the percentage of each 5 year group.
+We want to investigate wether this is more convenient for the user.

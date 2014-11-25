@@ -10,7 +10,7 @@ For the goal of the task we distinguish between three different types of analyse
 \todo{!}...
 
 \subsection{Chosen Tasks}
-As we now have defined a common framework for formulating visualization tasks, we move on to defining the actual tasks we want to perform on our own data set about the Dutch municipalities. We mainly distinguish between two different task (though the first one has a rather broad character).
+As we now have defined a common framework for formulating visualization tasks, we move on to defining the actual tasks we want to perform on our own data set about the Dutch municipalities. We mainly distinguish between two different tasks (though the first one has a rather broad character).
 
 \subsubsection{Taks 1}
 The first task(s) that we define aims at discovering interesting properties of the given data set, as well as confirming expected properties. This means that this task is actually rather broad, and numerous specific questions can be formulated from it. However, we will define two basic (sub)tasks for analyzing the entire data set, namely a)'analyze the relations between the different attributes' in the set, and b) 'compare the attribute values of the different municipalities with each other'. We will define the same subset of attributes on which to perform for both of these tasks. These will be the attributes OAD, STED, AANT_INW, BEV_DICHTH, AANTAL_HH, P_EENP_HH, and OPP_TOT. For convenience we will call this set of attributes $S_{attr}$.
@@ -38,11 +38,13 @@ This question is formulated based on a hypothesis on which we seek validation.
 Once the question is answered it can be used to support the hypotheses.\\
 \\
 The specific question we want an answer to is whether there are municipalities in the Netherlands that suffer from a high degree of an aging population ('vergrijzing' in Dutch).
-This question is based on the hypotheses that the Netherlands is suffering from a high degree of an aging population.\\
+This question is based on the hypothesis that the Netherlands is suffering of a high degree aging population.\\
+The degree of aging population is based on the inhabitants that are older than 65 years, and the working inhabitants.
+The working inhabitants are defined as the age group from 20 till 65, this is not the actual group of working inhabitants but it is a good representation.
 \\
-The specific question can be described as a formal tuple:\\
-(\textit{confirmatory, searching localization, attr($P\_65\_EO$), all})\\
+The specific question can be described as a formal task description:\\
+(\textit{confirmatory, searching localization, attr($P\_00\_14\_JR$, $P\_15\_19\_JR$, $P\_20\_24\_JR$, $P\_25\_44\_JR$, $P\_45\_64\_JR$, $P\_65\_EO\_JR$), all})\\
 \\
-The formal task describes that the user is searching confirmation among all available 65+-percentage attribute values.
+The formal task describes that the user is searching confirmation among all available 65+-percentage attribute values and the 20- till 64-percentage attribute values, this last attribute is created with a combination of different percentage attributes.
 The task is confirmatory, so the user knows what he is looking for and seeking confirmation to what he wants to prove.
 The user is looking at low-level data characteristics (localization), this means no complex patterns in the data but simply searching for the high valued attribute values in the data objects (municipalities).
