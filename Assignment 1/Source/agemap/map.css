@@ -1,0 +1,24 @@
+path {
+  stroke: grey;
+  stroke-width: 1px;
+  fill: white;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
