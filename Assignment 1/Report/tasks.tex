@@ -13,18 +13,17 @@ For the goal of the task we distinguish between three different types of analyse
 As we now have defined a common framework for formulating visualization tasks, we move on to defining the actual tasks we want to perform on our own data set about the Dutch municipalities. We mainly distinguish between two different task (though the first one has a rather broad character).
 
 \subsubsection{Taks 1}
-The first task(s) that we define aims at discovering interesting properties of the given data set, as well as confirming expected properties. This means that this task is actually rather broad, and numerous specific questions can be formulated from it. 
+The first task(s) that we define aims at discovering interesting properties of the given data set, as well as confirming expected properties. This means that this task is actually rather broad, and numerous specific questions can be formulated from it. However, we will define two basic (sub)tasks for analyzing the entire data set, namely a)'analyze the relations between the different attributes' in the set, and b) 'compare the attribute values of the different municipalities with each other'. We will define the same subset of attributes on which to perform for both of these tasks. These will be the attributes OAD, STED, AANT_INW, BEV_DICHTH, AANTAL_HH, P_EENP_HH, and OPP_TOT. For convenience we will call this set of attributes $S_{attr}$.
 
-analyze (discover/confirm) relations between attributes
-    -> detect outliers
-    -> detect data inconsistencies
-    -> detect trends
-(exploratory|confirmatory, search?, relations|trends|outliers, attr(), all)
+When formally defining task 1a, we observe that we adopt an \textit{exploratory} approach, as we aim at \textit{searching} interesting \textit{relations} between different data set attributes. From this we can (partly) derive the first three dimensions for our 5-tuple task description. The forth dimensions, the target has also been specified already, namely $s_{attr}$. This leaves us with the cardinality. Because we want to discover general relations, we want to look at all data instances (municipalities). However, some relations between attributes may be very obvious. We will therefore also be looking for \textit{confirmation} of these obvious relations, and want to detect possible abnormalities or inconsistencies in them, such as \textit{outliers}. The resulting formal task description then looks like this:
 
-compare attribute values of different municipalities
-    -> 
-(exploratory|confirmatory, 
+(exploratory|confirmatory, relation-seeking, relations|outliers, $S_{attr}$, all)
 
+For task 1b we can define a somewhat similar task. The main difference is now that we will not be looking at the relations between the different data attributes, but are \textit{comparing} the data values of the different data objects. In this way we again hope to find interesting characteristics such as \textit{outliers} or \textit{clusters}. As with task 1a, we again take $S_{attr}$ as our target and all instances as cardinality.
+
+(exploratory|confirmatory, comparison, outliers|clusters, $S_{attr}$, all)
+
+Specific questions that we could pose for the first of these two tasks ...
 \todo{specific questions}
 
 

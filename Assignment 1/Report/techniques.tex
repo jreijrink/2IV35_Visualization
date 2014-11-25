@@ -1,25 +1,23 @@
 \section{Techniques}
 
 \subsection{techniques for task 1}
-\todo{foreseen pros and cons}
+Because the tasks 1a and 1b are similar in the sense that the aim at observing quite a lot of different data attributes on a rather high level, we will argue for using one general technique for both of these tasks. Techniques that can be chosen for this broad exploration of the data include a Parallel Coordinate Plot (PCP) and Scatterplot Matrix (SM). This is because these two techniques enable us to show a lot of different attributes in one large overview. An advantage of the PCP over the SM is however that the PCP tends to take up less space. Also the axes of the SM tend to become very small when numerous attributes are used. This makes it hard to distinguish between single data objects when analyzing the data. When data objects can be be categorized, this problem can be partly overcome by specifying each category with a certain color. However, for our municipalities data set this categorization is not really possible. An imaginable solution for this would be an interactive SM where the user can zoom in on one of the scatterplots. Unfortunately D3 \cite{D3} does not provide such an example, and implementing it ourselves was considered to consume too much time. For these reasons, it was chosen do use a PCP.
 
-Techniques that can be chosen for this broad exploration of the data include a Parallel Coordinate Plot (PCP) and Scatterplot Matrix (SM). This is because these two techniques enable us to show a lot of different attributes in one large overview. An advantage of the PCP over the SM is however that the PCP tends to take up less space. Also the axes of the SM tend to become very small when numerous attributes are used. This makes it hard to distinguish between single data objects when analyzing the data. When data objects can be be categorized, this problem can be partly overcome by specifying each category with a certain color. However, for our municipalities data set this categorization is not really possible. An imaginable solution for this would be an interactive SM where the user can zoom in on one of the scatterplots. Unfortunately D3 \cite{D3} does not provide such an example, and implementing it ourselves was considered to consume too much time. For these reasons, it was chosen do use a PCP.
 
-con: outliers rack up the scaling -> solution: scale the axes to selection
 
 
 \subsection{techniques for task 2}
 - bar chart
  - absolute vergelijken
  - niet de relaties tot elkaar mbt percentages
- 
+
 - normalized bar chart
  - eenvoudig vergelijken
- 
+
 - choropleth map
  - eenvoudig vergelijken
  - moeilijk kleuren onderscheiden
- 
+
 - scatter plot
 
 - sunburst
@@ -28,8 +26,8 @@ con: outliers rack up the scaling -> solution: scale the axes to selection
 
 - pyramid
  - alleen top 10?
- 
- 
+
+
 \todo{optional techniques}
 \todo{pro cons}
 \todo{argueing for chosen technique}
