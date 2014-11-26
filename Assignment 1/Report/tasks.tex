@@ -1,13 +1,20 @@
 \section{Tasks}\label{sec:tasks}
 
-In this section we define the tasks that we would like to perform. That is, we describe what information we would like to retrieve from the given data set. Before we define these tasks we provide a framework (or design space) for formulating specific tasks.
+In this section we define the visualization tasks that we would like to execute on the given data set. That is, we describe what information we would like to retrieve from the given data. However, before we define these tasks, we provide a framework (i.e., design space) for formulating specific visualization tasks.
 
 \subsection{Framework for Defining Tasks}
-In order to formulate a nice and clear visualization task, we define a framework for doing this as described in \cite{schulz2013design}. Here we distinguish between five different dimensions for each task, namely the \textit{goal} (why is the task pursued), \textit{means} (how is the task carried out), \textit{characteristics}(what does the task seek), \textit{target} (on which part of the data is the task carried out) and \textit{cardinality} (on how many instances is the task carried out). We shortly explain these five aspects in some more detail.
+In order to formulate a nice and clear visualization task, we define a framework for doing this as presented in \cite{schulz2013design}. Here we distinguish between five different dimensions for each task, namely the \textit{goal} (why is the task pursued?), \textit{means} (how is the task carried out?), \textit{characteristics} (what does the task seek?), \textit{target} (on which part of the data is the task carried out?) and \textit{cardinality} (on how many instances is the task carried out?). We shortly explain these five aspects in some more detail.
 
-For the goal of the task we distinguish between three different types of analyses. We can have an exploratory analysis (or undirected search) that aims at deriving an hypothesis from an unknown data set, a confirmatory analysis (directed search)
+For the goal of the task we distinguish between three different types of analyses. We can have an exploratory analysis (or undirected search) that aims at deriving an hypothesis from an unknown data set, a confirmatory analysis (directed search) that aims to verify a found or assumed hypothesis, and finally a presentation that simple exhibits analysis results.
 
-\todo{!}...
+For describing how the task is being carried out we distinguish between three main ways of doing so. These are navigation, (re-)organization and relation. Navigation 'subsumes all means that change the extent or the granularity of the shown data, but that do not reorganize the data itself'. (Re-)organization includes all means that actually adjust the data to be shown by either reducing or enriching it, and relation encompasses all means that put data in context.
+
+Characteristics of the data can be subdivided in low-level data characteristics and high-level ones. Examples of low-level characteristics are data values of a particular data object or the data objects corresponding to a particular data value. Examples of high-level characteristics include more complex data patterns such as trends, outliers, clusters, frequency, distribution, correlation, etc.
+
+The target of the visualization task describes on which part of the data the task is being carried out. This often boils down to a certain (sub)set of the different data attributes.
+
+The cardinality finally specifies which part of the data instances we consider when carrying out the task. For instance just a single one, a certain subset, or just all of them.
+
 
 \subsection{Chosen Tasks}
 With this common framework for formulating visualization tasks defined, we move on to defining the actual tasks we want to perform on our data set about the Dutch municipalities. We mainly distinguish between two different tasks, of which the first one will be divided into two subtasks.
