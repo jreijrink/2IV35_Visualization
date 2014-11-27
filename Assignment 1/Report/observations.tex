@@ -47,44 +47,17 @@ Summarizing, we may conclude that both techniques are rather effective in answer
 
 
 \subsection{Observations Task 2}
-For this task we implemented a bar chart and choropleth map visualization.
-The bar chart visualization contains a combination of a normal and normalized bar chart.
-The choropleth map also contains an extra bar chart to give detailed information about the age groups of a municipality.
+For this task we implemented a bar chart and choropleth map visualization. The bar chart visualization contains a combination of a regular and normalized bar chart. The choropleth map also contains an extra bar chart to give detailed information about the age groups of a certain municipality.
 
-The specific question the visualisations should confirm is whether there are municipalities in the Netherlands that suffer from a high degree of an aging population.
-Both visualizations show that the degree of aging population is high.
-The bart chart shows that the degree of aging population in some municipalities is more than half the size of the working group, which is a lot.
-It also shows that the degree of aging population is smaller in large municipalities.
-For instance Amsterdam, which is the seventh municipality when sorting on ascending percentage of aging degree, as shown in figure~\ref{fig:bar}.
+The specific question that these visualisations should confirm is whether there are municipalities in the Netherlands that suffer from a high degree of an aging population, and which ones do so the most. Both visualizations achieve this task in their own way. The bart chart shows that the degree of aging population in some municipalities is more than half the size of the working group, which is quite a lot. It also shows that the degree of aging population is smaller in large municipalities. An example of this is Amsterdam, which is the seventh municipality when sorting the data on the percentage of degree of aging, in ascending order (see figure~\ref{fig:bar}).
 
-The choropleth map does not directly show that there are municipalities in the Netherlands that suffer from a high degree of an aging population.
-But when hovering over municipalities it shows a bar chart, this bar chart gives a good insight about the aging degree of the municipality.
-Because the bar chart has a bar for each 5 year per age group it shows a detailed distribution of the age groups, which gives extra information for analysis.
-The downside of these 5 year bars is that the users has to combine the bars to create the 65+ group and working group.
-But this should not be necessary because that is where the map is for, and the visualization also shows a tooltip with the 65+ percentage of the selected municipality.
-Even thought the map does not give direct insight about the aging degree, it does show geographic information about the aging population.
-The map shows that the north and south of the Netherlands suffer from a higher degree of aging population.
-There are also some outliers, which are student municipalities like Groningen. as show in figure~\ref{fig:map}.
+The choropleth map does not directly show that there are municipalities in the Netherlands that suffer from a high degree of an aging population. This is because the color scale of the map is determined by the highest and lowest value of the degree of aging. However, when hovering over municipalities the degree of aging is shown using a tooltip. Next to this, a bar chart shown, giving a good insight about the aging degree of the municipality. Because the bar chart has a bar for each 5-year age group, it shows a detailed distribution of the age groups, which gives extra information for analysis. The downside of these 5-year bars is that the user has to combine the bars mentally in order to 'view' the 65+ group and working group. Then again, the colormap already takes care of indicating the height of the degree of aging, and the tooltip shows the 65+ percentage of the selected municipality. Even thought the map itself may not give direct insight in the aging degree, it does provide geographic information about the aging population. The map for instance shows that the north and south of the Netherlands suffer from a higher degree of aging population than the center. Another interesting observation are the few low-degree outliers. Investigating these municipalities more closely, can again find that these are the municipalities that contain a large student city. The most notable example of this is Groningen (see figure~\ref{fig:map}).
 
-When using the choropleth map there are some necessary improvements.
-The first is a color scale to show the values of the colors in the map, now the bar chart or tooltip is required to get an idea about the value of a color.
-This color scale can also be used to answer the question of the task without needing the bar chart because the percentage of aging population is immediately visible to the user.
-Next the hover function should be changed to a mouse click function.
-With the current hover function it is hard to compare two specific municipalities, this problem is solved with mouse click selection.
-Finally the color palette can be simplified for this task.
-In the current choropleth map the color scale is green-red.
-By using this colors the map also shows municipalities with a low degree of aging population, like student municipalities.
-This is interesting information but not necessary to perform the specified task.
-Instead of this color palette we could use the color scale white-red, which is more organized and calm, in figure~\ref{fig:map} both color palettes are shows.
+When looking at the choropleth map, there are a few improvements and design decisions that we should shortly address. A clear improvement would for instance be adding a color scale to the map, showing the range of values that the colors in the map represent. Currently the bar chart or tooltip is required to get an idea about the value of a certain color. This color scale would even answer the question of task 2 without any need of the bar chart, because the percentage of aging population is immediately visible to the user. Furthermore we could argue that changing the hover function by a mouse click function would be an improvement. With the current hover function it is hard to compare two specific municipalities, because the moving from one municipality to another one, triggers the map to show the bar charts of all intermediate municipalities. This creates a chaotic view, and could be prevented by using a mouse click selection, rather than the hover selection. Finally we can argue about the color palette of the map. In the current choropleth map the color scale is green-red. By using these colors, the map also emphasizes municipalities with a low degree of aging population, like student municipalities. Though this is interesting information, it is not necessary to perform the specified task. Instead of the green-red color palette we could use a white-red color scale. This gives a more organized and calm impression, as shown in figure~\ref{fig:map}.
 
-The bar chart does not required any mayor improvements
-A feature that would be nice the have is sorting on population.
-The bar chart is currently sorted on the percentage of 65+ population per municipality.
-If the bar chart can be sorted on population per municipality it would give extra information, but this information is not required for the current task.
+The bar chart on the other hand is more straightforward. However, a feature that would be nice to add is an absolute sort-on-population option. The bar chart is currently sorted on the percentage of 65+ population per municipality. If the bar chart could be sorted on the absolute value of 65+ inhabitants this might provide valuable additional information.
 
-So when comparing both visualizations, the bar chart is definitely a better visualization for this task.
-The user can immediately answer the question without any more actions required, which is not the case with the choropleth map.
-If the choropleth map is updated with the required improvements it would also be a suitable visualization for this task.
+When comparing both visualizations, we may conclude that the bar chart is a better visualization technique for the task that was formulated. The user can immediately answer the question because of the sorting ption, which is not possible using the choropleth map. However, if the choropleth map were to be updated with the proposed improvements, it would also be a very suitable technique for performing task 2.
 
 \begin{figure}[h!]
     \centering
@@ -97,7 +70,7 @@ If the choropleth map is updated with the required improvements it would also be
         \includegraphics[width=\textwidth]{img/normalbarchart.png}
         \caption{ }
     \end{subfigure}
-    \caption{Bar chart with the age group percentages of the municipalities (a), and the absolute population values (b))}
+    \caption{Bar chart with the age group percentages of the municipalities (a), and the absolute population values (b)}
     \label{fig:bar}
 \end{figure}
 
@@ -112,6 +85,6 @@ If the choropleth map is updated with the required improvements it would also be
         \includegraphics[width=\textwidth]{img/agemapcolor.png}
         \caption{ }
     \end{subfigure}
-    \caption{Choropleth map that shows the degree of aging population (a), and the same map with a white-red color scale (b)}
+    \caption{Choropleth map that shows the degree of aging population using a green-red color scale (a), and the same map using a white-red color scale (b)}
     \label{fig:map}
 \end{figure}
