@@ -38,21 +38,6 @@ For task 1b we can also define a question of which we may already predict the an
 
 
 \subsubsection{Task 2}\label{sec:task2}
-In this task we search for confirmation to a specific question.
-This question is formulated based on a hypothesis on which we seek validation.
-Once the question is answered it can be used to support the hypotheses.
-
-The specific question we want an answer to is whether there are municipalities in the Netherlands that suffer from a high degree of an aging population ('vergrijzing' in Dutch).
-This question is based on the hypothesis that the Netherlands is suffering of a high degree aging population. The degree of aging population is based on the inhabitants that are older than 65 years, and the working inhabitants. The working inhabitants are defined as the age group from 20 till 65, this is not the actual group of working inhabitants but it is a good representation. The specific question can be described as a formal task description:
-
-(\textit{confirmatory, searching localization, attr($P\_00\_14\_JR$, $P\_15\_19\_JR$, $P\_20\_24\_JR$, $P\_25\_44\_JR$, $P\_45\_64\_JR$, $P\_65\_EO\_JR$), all})
-
-The formal task describes that the user is searching confirmation among all available 65+-percentage attribute values and the 20- till 64-percentage attribute values, this last attribute is created with a combination of different percentage attributes.
-The task is confirmatory, so the user knows what he is looking for and seeking confirmation to what he wants to prove.
-The user is looking at low-level data characteristics (localization), this means no complex patterns in the data but simply searching for the high valued attribute values in the data objects (municipalities). 
-
-
-
 The second task we define concerns the topic of a high degree of aging population ('\textit{vergrijzing}' in Dutch). The task is somewhat twofold, because we want to confirm that there are some municipalities in The Netherlands that suffer from a high degree of aging, as well as find out which municipalities these are. The degree of aging is defined by the percentage of inhabitants that are older than 65 years, compared to the percentage of working inhabitants. Because we do not have the exact percentage of working inhabitants of each population, we assume here that this percentage is somewhat similar to that of the percentage inhabitants aged between 20 and 65 years.
 
 When formally defining this task we observe that we both want confirm an hypothesis as well as explore the data (explained above). Hence we will be searching for, and localizing the municipalities that suffer the most from a high degree of aging. The set of attributes that we will consider for this task consist of \texttt{P\_00\_14\_JR}, \texttt{P\_15\_19\_JR}, \texttt{P\_20\_24\_JR}, \texttt{P\_25\_44\_JR}, \texttt{P\_45\_64\_JR} and \texttt{P\_65\_EO\_JR}. This set will from here on be denoted by $T_{attr}$. Similar as for task 1, we again want to consider all of the municipalities for this task. Together this results in the following formal definition of task 2:
