@@ -1,0 +1,94 @@
+\documentclass[a4paper,twoside,11pt]{article}
+\usepackage{a4wide,graphicx,fancyhdr,amsmath,amssymb,amsthm,ifthen,path}
+\usepackage[ruled, noline, algo2e, noend]{algorithm2e}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{color}
+\usepackage{todonotes}
+\usepackage{parskip}
+\usepackage{subcaption}
+\usepackage{etoolbox, array, dcolumn}
+\urlstyle{rm}
+
+\setlength\headheight{20pt}
+\addtolength\topmargin{-10pt}
+\addtolength\footskip{20pt}
+
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyfoot[LO,RE]{\sffamily\bfseries 2IV35~--~Visualization}
+	\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+\pagestyle{fancy}{
+\fancyhf{}
+\fancyhead[LE]{\sffamily\bfseries Joris Reijrink and Chris Hoedemakers}
+\fancyhead[RO]{\sffamily\bfseries Volume Rendering}
+\fancyfoot[LO,RE]{\sffamily\bfseries 2IV35~--~Visualization}
+\fancyfoot[RO,LE]{\sffamily\bfseries\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0pt}
+}
+
+\title{\sffamily\bfseries
+\fontsize{22pt}{1pt} Assignment 2 \\[1ex]
+\large Volume Rendering \bigskip}
+
+\author{
+	Joris Reijrink \\
+	Student number: 0847198 \\
+	\texttt{j.reijrink@student.tue.nl}
+	\and
+	Chris Hoedemakers \\
+	Student number: 0661115 \\
+	\texttt{c.g.j.j.hoedemakers@student.tue.nl}
+}
+
+\date{\today}
+
+\newcounter{cs}
+
+\newcommand{\code}[1]{
+	\refstepcounter{cs}
+	\begin{center}
+	\hspace*{-2.2cm}
+	\begin{minipage}{1.103\textwidth}
+		\begin{minipage}{0.1\textwidth}%
+			\raggedleft
+			\footnotesize{\texttt{CS \thecs}}\hspace*{0.3cm}
+		\end{minipage}
+		\begin{minipage}{0.88\textwidth}%
+			\colorbox{gray!20}{
+				\begin{minipage}{\textwidth}%
+				\fontsize{8pt}{8pt}\texttt{#1}
+				\end{minipage}
+			}
+		\end{minipage}
+	\end{minipage}
+	\end{center}
+	\vspace*{0.3cm}
+}
+\newcommand{\tab}{\hspace*{0.6cm}}
+
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+
+\begin{document}
+
+\maketitle
+\setcounter{page}{1}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.3cm}
+
+\input{intro.tex}
+\input{mip.tex}
+\input{compositing.tex}
+\input{opacity_weighting.tex}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
