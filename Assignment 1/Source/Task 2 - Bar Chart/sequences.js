@@ -77,7 +77,7 @@ function format_description(d) {
               "</table>";
 }
 
-d3.tsv("cities-data.txt", function(error, data) {
+d3.tsv("../data/cities-data.txt", function(error, data) {
   data.clean();
   
 	var categories = d3.keys(data[0]).filter(function(key) { return (key == "P_00_14_JR" || key == "P_15_24_JR" || key == "P_25_44_JR" || key == "P_45_64_JR" || key == "P_65_EO_JR"); })

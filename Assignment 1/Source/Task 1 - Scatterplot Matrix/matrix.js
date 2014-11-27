@@ -1,49 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-svg {
-  font: 10px sans-serif;
-  padding: 10px;
-}
-
-.axis,
-.frame {
-  shape-rendering: crispEdges;
-}
-
-.axis line {
-  stroke: #ddd;
-}
-
-.axis path {
-  display: none;
-}
-
-.frame {
-  fill: none;
-  stroke: #aaa;
-}
-
-circle {
-  fill: #0040FF;
-  fill-opacity: .7;
-}
-
-circle.hidden {
-  fill: #ccc !important;
-}
-
-.extent {
-  fill: #000;
-  fill-opacity: .125;
-  stroke: #fff;
-}
-
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script>
 
 var width = 960,
     size = 150,
@@ -67,7 +21,7 @@ var yAxis = d3.svg.axis()
 
 //var color = d3.scale.category10();
 
-d3.tsv("cities-data.txt", function(error, data) {
+d3.tsv("../data/cities-data.txt", function(error, data) {
 	data.clean();
 
   var domainByTrait = {},
@@ -203,5 +157,3 @@ Array.prototype.clean = function() {
   }
   return this;
 };
-
-</script>
