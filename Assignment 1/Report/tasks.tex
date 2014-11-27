@@ -1,9 +1,9 @@
 \section{Tasks}\label{sec:tasks}
 
-In this section we define the visualization tasks that we would like to execute on the given data set. That is, we describe what information we would like to retrieve from the given data. However, before we define these tasks, we provide a framework (i.e., design space) for formulating specific visualization tasks.
+In this section we define the visualization tasks that we would like to perform on the given data set. That is, we describe what information we would like to retrieve from the given data. However, before we define these tasks, we provide a framework (i.e., design space) for formulating visualization tasks.
 
 \subsection{Framework for Defining Tasks}
-In order to formulate a nice and clear visualization task, we define a framework for doing this as presented in \cite{schulz2013design}. Here we distinguish between five different dimensions for each task, namely the \textit{goal} (why is the task pursued?), \textit{means} (how is the task carried out?), \textit{characteristics} (what does the task seek?), \textit{target} (on which part of the data is the task carried out?) and \textit{cardinality} (on how many instances is the task carried out?). We shortly explain these five aspects in some more detail.
+In order to formulate a nice and clear visualization task, we provide a framework for doing so as presented in \cite{schulz2013design}. Here we distinguish between five different dimensions for each task, namely the \textit{goal} (why is the task pursued?), \textit{means} (how is the task carried out?), \textit{characteristics} (what does the task seek?), \textit{target} (on which part of the data is the task carried out?) and \textit{cardinality} (on how many instances is the task carried out?). We shortly explain these five aspects in some more detail.
 
 For the goal of the task we distinguish between three different types of analyses. We can have an exploratory analysis (or undirected search) that aims at deriving an hypothesis from an unknown data set, a confirmatory analysis (directed search) that aims to verify a found or assumed hypothesis, and finally a presentation that simple exhibits analysis results.
 
@@ -20,19 +20,19 @@ The cardinality finally specifies which part of the data instances we consider w
 With this common framework for formulating visualization tasks defined, we move on to defining the actual tasks we want to perform on our data set about the Dutch municipalities. We mainly distinguish between two different tasks, of which the first one will be divided into two subtasks.
 
 \subsubsection{Task 1}\label{sec:task1}
-The first task that we define aims at discovering interesting properties of the given data set, as well as confirming expected properties. This means that this task is actually rather broad, and numerous specific questions can be formulated from it. However, we will define two basic (sub)tasks for analyzing the entire data set, namely\textit{a)'analyze the relations between the different attributes'} in the set, and \textit{b) 'compare the attribute values of the different municipalities with each other'}. The subset of attributes on which we will perform both of these tasks will be the same. This subset will consist of the attributes \texttt{OAD}, \texttt{STED}, \texttt{AANT\_INW}, \texttt{BEV\_DICHTH}, \texttt{AANTAL\_HH}, \texttt{P\_EENP\_HH}, and \texttt{OPP\_TOT}. For convenience we will call this set of attributes $S_{attr}$.
+The first task that aims at discovering interesting properties of the given data set, as well as confirming expected properties. This means that this task is rather broad, and numerous specific questions can be formulated from it. However, we will define two basic (sub)tasks for this task of analyzing the entire data set. These two subtasks are defined as \textit{a)'analyze the relations between the different attributes in the set'} , and \textit{b) 'compare the attribute values of the different municipalities with each other'}. The subset of attributes on which we will perform both of these tasks will be the same. This subset will consist of the attributes \texttt{OAD}, \texttt{STED}, \texttt{AANT\_INW}, \texttt{BEV\_DICHTH}, \texttt{AANTAL\_HH}, \texttt{P\_EENP\_HH}, and \texttt{OPP\_TOT}. For convenience we will call this set of attributes $S_{attr}$.
 
-When formally defining task 1a, we observe that we adopt an \textit{exploratory} approach, as we aim at \textit{searching} interesting \textit{relations} between different data set attributes. From this we can (partly) derive the first three dimensions for our 5-tuple task description. The forth dimensions, the target has also been specified already, namely $s_{attr}$. This leaves us with the cardinality. Because we want to discover general relations, we want to look at all data instances (municipalities). However, some relations between attributes may be very obvious. We will therefore also be looking for \textit{confirmation} of these obvious relations, and want to detect possible abnormalities or inconsistencies in them, such as \textit{outliers}. The resulting formal task description then looks like this:
+When formally defining task 1a, we observe that we adopt an \textit{exploratory} approach, as we aim at \textit{searching} interesting \textit{relations} between different data attributes. From this we can (partly) derive the first three dimensions for our 5-tuple task description. The forth dimensions, the target, has also been specified already, namely by $S_{attr}$. This leaves us with the cardinality. Because we want to discover general relations, we want to look at all data instances (municipalities). However, some relations between attributes may be very obvious. We will therefore also be looking for \textit{confirmation} of these obvious relations, and want to detect possible abnormalities or inconsistencies in them, such as \textit{outliers}. The resulting formal task description then looks like this:
 
-(exploratory|confirmatory, relation-seeking, relations|outliers, $S_{attr}$, all)
+(exploratory$|$confirmatory, relation-seeking, relations$|$outliers, $S_{attr}$, all)
 
-For task 1b we can define a somewhat similar task. The main difference is now that we will not be looking at the relations between the different data attributes, but are \textit{comparing} the data values of the different data objects. In this way we again hope to find interesting characteristics such as \textit{outliers} or \textit{clusters}. As with task 1a, we again take $S_{attr}$ as our target and all instances as cardinality.
+For task 1b we can define a somewhat similar task. The main difference is now that we will not be looking at the relations between the different data attributes, but are \textit{comparing} the data values of the different data objects. In this way we again hope to find interesting characteristics such as \textit{outliers} or \textit{clusters}. As with task 1a, we take $S_{attr}$ as our target and all instances as cardinality.
 
-(exploratory|confirmatory, comparison, outliers|clusters, $S_{attr}$, all)
+(exploratory$|$confirmatory, comparison, outliers$|$clusters, $S_{attr}$, all)
 
-Specific questions that we could pose for the first of these two subtasks is for instance 'is there a positive relation between the attributes \texttt{AANT\_INW} and \texttt{BEV\_DICHTH}?'. If we think about this for a minute in advance, we may expect that this will indeed be the case. Hence this would be a typical question where we try to confirm our hypothesis, and look for data objects that do not adhere to this. A much more general and exploratory question would be 'which attributes have a typical positive or negative relation with each other?'. Again we may define some expected relations, such as a negative relation between \texttt{OAD} and \texttt{STED}. However, this question really aims for elaborate (though high level) analysis of the data.
+Specific questions that we could pose for the first of these two subtasks is for instance 'is there a positive relation between the attributes \texttt{AANT\_INW} and \texttt{BEV\_DICHTH}?'. If we think about this for a minute in advance, we may predict that this will indeed be the case. This would hence be a typical question where we try to confirm our hypothesis, and look for data objects that do not adhere to this. A much more general and exploratorive question would be 'which attributes have a typical positive or negative relation with each other?'. Again we may define some expected relations, such as a negative relation between \texttt{OAD} and \texttt{STED}. However, this question really aims at an elaborate (though high level) analysis of the data.
 
-For task 1b we can also define a question of which we can already guess the answer. We could for instance confirm that the four largest cities in the Netherlands score the highest on the \texttt{AANT\_INW} attribute. Furthermore we may expect these values to be rather significantly larger than those of the other municipalities. Finally we may again pose a general, exploratory question in the form of 'how are the attribute values of the municipalities distributed for a certain attribute, and can we explain this distribution?'.
+For task 1b we can also define a question of which we may already predict the answer. We could for instance try to confirm that the four largest cities in The Netherlands score highest on the \texttt{AANT\_INW} attribute. We may even expect these values to be rather significantly larger than those of the other municipalities. Finally we can again pose a general, explorative question in the form of 'how are the attribute values of the municipalities distributed for a certain attribute, and can we explain this distribution?'.
 
 
 
@@ -40,16 +40,23 @@ For task 1b we can also define a question of which we can already guess the answ
 \subsubsection{Task 2}\label{sec:task2}
 In this task we search for confirmation to a specific question.
 This question is formulated based on a hypothesis on which we seek validation.
-Once the question is answered it can be used to support the hypotheses.\\
-\\
+Once the question is answered it can be used to support the hypotheses.
+
 The specific question we want an answer to is whether there are municipalities in the Netherlands that suffer from a high degree of an aging population ('vergrijzing' in Dutch).
-This question is based on the hypothesis that the Netherlands is suffering of a high degree aging population.\\
-The degree of aging population is based on the inhabitants that are older than 65 years, and the working inhabitants.
-The working inhabitants are defined as the age group from 20 till 65, this is not the actual group of working inhabitants but it is a good representation.
-\\
-The specific question can be described as a formal task description:\\
-(\textit{confirmatory, searching localization, attr($P\_00\_14\_JR$, $P\_15\_19\_JR$, $P\_20\_24\_JR$, $P\_25\_44\_JR$, $P\_45\_64\_JR$, $P\_65\_EO\_JR$), all})\\
-\\
+This question is based on the hypothesis that the Netherlands is suffering of a high degree aging population. The degree of aging population is based on the inhabitants that are older than 65 years, and the working inhabitants. The working inhabitants are defined as the age group from 20 till 65, this is not the actual group of working inhabitants but it is a good representation. The specific question can be described as a formal task description:
+
+(\textit{confirmatory, searching localization, attr($P\_00\_14\_JR$, $P\_15\_19\_JR$, $P\_20\_24\_JR$, $P\_25\_44\_JR$, $P\_45\_64\_JR$, $P\_65\_EO\_JR$), all})
+
 The formal task describes that the user is searching confirmation among all available 65+-percentage attribute values and the 20- till 64-percentage attribute values, this last attribute is created with a combination of different percentage attributes.
 The task is confirmatory, so the user knows what he is looking for and seeking confirmation to what he wants to prove.
 The user is looking at low-level data characteristics (localization), this means no complex patterns in the data but simply searching for the high valued attribute values in the data objects (municipalities). 
+
+
+
+The second task we define concerns the topic of a high degree of aging population ('\textit{vergrijzing}' in Dutch). The task is somewhat twofold, because we want to confirm that there are some municipalities in The Netherlands that suffer from a high degree of aging, as well as find out which municipalities these are. The degree of aging is defined by the percentage of inhabitants that are older than 65 years, compared to the percentage of working inhabitants. Because we do not have the exact percentage of working inhabitants of each population, we assume here that this percentage is somewhat similar to that of the percentage inhabitants aged between 20 and 65 years.
+
+When formally defining this task we observe that we both want confirm an hypothesis as well as explore the data (explained above). Hence we will be searching for, and localizing the municipalities that suffer the most from a high degree of aging. The set of attributes that we will consider for this task consist of \texttt{P\_00\_14\_JR}, \texttt{P\_15\_19\_JR}, \texttt{P\_20\_24\_JR}, \texttt{P\_25\_44\_JR}, \texttt{P\_45\_64\_JR} and \texttt{P\_65\_EO\_JR}. This set will from here on be denoted by $T_{attr}$. Similar as for task 1, we again want to consider all of the municipalities for this task. Together this results in the following formal definition of task 2:
+
+(confirmatory$|$exploratory, searching$|$localization, $T_{attr}$, all)
+
+Though the specific question for this task was already mentioned earlier ('Which municipalities in The Netherlands suffer from a high degree of aging?'), we may also ask ourselves 'Is there a certain trend in the municipalities that suffer from a high degree of aging?'.

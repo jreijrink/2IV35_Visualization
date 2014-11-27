@@ -1,32 +1,15 @@
 \section{Techniques}\label{sec:techniques}
 
-\subsection{Techniques for Task 1}\label{sec:techniques1}
+\subsection{Techniques Task 1}\label{sec:techniques1}
 Because the tasks 1a and 1b are similar in the sense that they aim at observing quite a lot of different data attributes on a rather high level, we will argue for the use of one general technique for both of these tasks. Techniques that can be chosen for this broad exploration of the data include a Parallel Coordinate Plot (PCP) and Scatterplot Matrix (SM). This is because these two techniques enable us to show a lot of different attributes in one large overview. An advantage of the PCP over the SM is however that the PCP tends to take up less space. Also the axes of the SM tend to become very small when numerous attributes are used. This makes it hard to distinguish between single data objects when analyzing the data. When data objects can be be categorized, this problem can be partly overcome by specifying each category with a certain color. However, for our municipalities data set this categorization is not really possible.
+
 Other visualization techniques such as bar and pie charts, were not considered suitable for these broad overview tasks because they can not really create a nice overview. Different types of hierarchical or network visualizations were quickly disregarded as the data does not posses such structure. Even maps were not deemed very useful, because they make it hard to compare different attribute values with each other. For these reasons, the PCP and SM techniques were chosen to be implemented \cite{D3pcp}\cite{D3sm}.
 
 
 
-\subsection{Techniques for Task 2}\label{sec:techniques2}
-Unlike the first task, this task has only a few attributes that combined is exactly one hundred percent for each municipality.
-So no complex visualizations are needed, simple visualization will suffice.
-The biggest challenge for a good visualization is the amount of municipalities, there are a lot.
-So a pie chart or sunburst cannot be used because it will be completely unreadable.
-The data has no hierarchical structure, so the sunburst will at most only have two levels.
+\subsection{Techniques Task 2}\label{sec:techniques2}
+Unlike the first task, task 2 only has a few attributes that, when combined, exactly add up to one hundred percent for each municipality. Hence, complex visualizations are not necessarily needed, and simple visualization may suffice. The biggest challenge in finding a good visualization is managing the great amount of municipalities. A pie chart or sunburst are therefore not very suitable, because they will be very hard to read. As mentioned before, because the data has no real hierarchical structure, a sunburst would have at most two levels.
 
-A normalized bar chart can be used to visualize the data.
-The proportion of aging inhabitants for each municipality is visible at once, this gives a good overview of the total aging population.
-The data can also be sorted on the 65+-percentage to show the municipality with the highest aging population.
-With a tooltip the exact percentage of each group can be given per municipality.
-A normal bar chart will result in the same visualization as the normalized bar chart, because the attributes are percentages of each group.
-But we could use the inhabitants amount per municipality to show the actual number of aging population.
-With this visualization the absolute values are show for each municipality.
-If the data is sorted on the 65+-percentage, it will give insight wether the aging percentage is higher in bigger cities.
-With this bar chart it will be hard to get a overview of the total aging population.
-We will implement a combination of both bar charts, we think this way the user gets the best of both worlds.
+A normalized bar chart will be a much more suitable technique to visualize the data. The proportion of aging inhabitants for each municipality will be visible at once, giving a good overview of the total aging population. By also sorting the data on the 65+-percentage, we can easily find the municipality with the highest degree of aging population. Using a tooltip, the exact percentage of each age group can even be shown per municipality. A regular bar chart will result in the same visualization as the normalized bar chart, because the attributes are percentages (always adding up to a hundred). We can however use the population count per municipality to show the actual number of aging people (65+). With this visualization the absolute values are show for each municipality. If the data is sorted on the 65+-percentage, it will for instance give insight in whether the aging percentage is higher in bigger cities. With this bar chart it will on the other hand be hard to get an overview of the total aging population. We will therefore implement a combination of both bar charts, giving us the best of both worlds.
 
-The final visualization technique we will implement for the task is a choropleth map.
-If the aging population of a municipality is high a dark shade of a color is used, if it is low a light shade is used.
-This will give a quick insight of the municipalities that have a high aging population.
-An extra bar chart can be shown when the mouse is hovered over a municipality, which will give more detail.
-The bar chart shows the percentage of each 5 year group.
-We want to investigate wether this is more convenient for the user.
+The final visualization technique we will implement for performing task 2 is a choropleth map. If the aging population of a municipality is high, a dark shade of a color is used, if it is low, a light shade is used. This will give a quick insight in which municipalities have a high degree of aging population. An extra bar chart may be added when hovering over a municipality, giving more detailed information about that municipality. This bar chart will show the percentage of inhabitants for each 5-year age group. We choose to this in order to investigate whether this is additional information may be useful to the user.
