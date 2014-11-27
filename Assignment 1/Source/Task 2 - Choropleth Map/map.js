@@ -109,9 +109,9 @@ function mouseOverArc(d) {
       .attr("height", function(d) { return height - y(d.percentage); });
 }
 queue()
-   .defer(d3.json, "cities-geometry.json")
-   .defer(d3.tsv, "cities-data.txt", function(d) { if(d.Naam != "") { cityData.set(d.Code, +d.P_65_EO_JR); } })
-   .defer(d3.tsv, "cities-data.txt", function(d) { cityDataAll.set(d.Code, d); })
+   .defer(d3.json, "../data/cities-geometry.json")
+   .defer(d3.tsv, "../data/cities-data.txt", function(d) { if(d.Naam != "") { cityData.set(d.Code, +d.P_65_EO_JR); } })
+   .defer(d3.tsv, "../data/cities-data.txt", function(d) { cityDataAll.set(d.Code, d); })
    .await(dataLoaded);
 
 function dataLoaded(error, mapData) {

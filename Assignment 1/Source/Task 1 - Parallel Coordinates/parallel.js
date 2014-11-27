@@ -1,65 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-svg {
-  font: 10px sans-serif;
-}
-
-.background path {
-  fill: none;
-  stroke: #ddd;
-  shape-rendering: crispEdges;
-}
-
-.foreground path {
-  fill: none;
-  stroke: steelblue;
-  position: absolute;
-}
-.myLine {
-  position: absolute;
-  z-index: 0;
-}
-.myLine:hover {
-  stroke: red;
-  position: absolute;
-  stroke-width: 3px;
-  z-index: -1;
-}
-
-.brush .extent {
-  fill-opacity: .3;
-  stroke: #fff;
-  shape-rendering: crispEdges;
-}
-
-.axis line,
-.axis path {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.axis text {
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-  cursor: move;
-}
-
-#tooltip { 
-	background-color: white;
-	padding: 3px 5px;
-	border: 1px solid black;
-	text-align: center;
-}
-
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<script>
 
 var margin = {top: 30, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
@@ -89,7 +27,7 @@ var tooltip = d3.select("body")
     .style("opacity", 0);
 	
 queue()
-   .defer(d3.tsv, "cities-data.txt")
+   .defer(d3.tsv, "../data/cities-data.txt")
    .await(dataLoaded);
 
 function mouseOverArc(d) {
@@ -234,6 +172,3 @@ Array.prototype.clean = function() {
   }
   return this;
 };
-
-
-</script>
