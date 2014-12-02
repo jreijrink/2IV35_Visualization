@@ -102,18 +102,34 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
 
         // sample on a plane through the origin of the volume data
         double max = volume.getMaximum();
-
-        for (int j = 0; j < image.getHeight(); j++) {
-            for (int i = 0; i < image.getWidth(); i++) {
+        int diagnal = image.getWidth() / 2;
+        int step = 2;
+        
+        for (int j = 0; j < image.getHeight(); j++) {            
+            //speed optimazation, calculate once per j iteration
+            int jloc = j - imageCenter;
+            double vLocX = vVec[0] * jloc;
+            double vLocY = vVec[1] * jloc;
+            double vLocZ = vVec[2] * jloc;
+            
+            for (int i = 0; i < image.getWidth(); i++) {                
+                //speed optimazation, calculate once per i iteration
+                int iloc = i - imageCenter;
+                double uLocX = uVec[0] * iloc;
+                double uLocY = uVec[1] * iloc;
+                double uLocZ = uVec[2] * iloc;
                 
-                int maxRay = 0;
-                int diagnal = image.getWidth() / 2;
-                for (int k = -diagnal; k < diagnal; k+=2) {
-                    pixelCoord[0] = uVec[0] * (i - imageCenter) + vVec[0] * (j - imageCenter) + (volumeCenter[0] + (k * viewVec[0]));
-                    pixelCoord[1] = uVec[1] * (i - imageCenter) + vVec[1] * (j - imageCenter) + (volumeCenter[1] + (k * viewVec[1]));
-                    pixelCoord[2] = uVec[2] * (i - imageCenter) + vVec[2] * (j - imageCenter) + (volumeCenter[2] + (k * viewVec[2]));
+                int maxRay = 0;                
+                for (int k = -diagnal; k < diagnal; k += step) {
+                    pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
+                    pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
+                    pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
+                    
                     int val = getVoxel(pixelCoord);
-                    maxRay += val > maxRay ? val : maxRay;
+                    maxRay = val > maxRay ? val : maxRay;
+                    
+                    //speed optimazation
+                    if(maxRay == max) break;
                 }
                 
                 // Apply the transfer function to obtain a color
