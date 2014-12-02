@@ -9,6 +9,7 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import gui.RaycastRendererPanel;
 import gui.TransferFunctionEditor;
 import java.awt.image.BufferedImage;
+import java.util.logging.Logger;
 import javax.media.opengl.GL2;
 import util.TFChangeListener;
 import util.VectorMath;
@@ -67,8 +68,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         int y = (int) Math.round(coord[1]);
         int z = (int) Math.round(coord[2]);
 
-        if ((x >= 0) && (x < volume.getDimX()) && (y >= 0) && (y < volume.getDimY())
-                && (z >= 0) && (z < volume.getDimZ())) {
+        if ((x >= 0) && (x < volume.getDimX()) && (y >= 0) && (y < volume.getDimY()) && (z >= 0) && (z < volume.getDimZ())) {
             return volume.getVoxel(x, y, z);
         } else {
             return 0;
@@ -89,9 +89,9 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         double[] viewVec = new double[3];
         double[] uVec = new double[3];
         double[] vVec = new double[3];
-        VectorMath.setVector(viewVec, viewMatrix[2], viewMatrix[6], viewMatrix[10]);
         VectorMath.setVector(uVec, viewMatrix[0], viewMatrix[4], viewMatrix[8]);
         VectorMath.setVector(vVec, viewMatrix[1], viewMatrix[5], viewMatrix[9]);
+        VectorMath.setVector(viewVec, viewMatrix[2], viewMatrix[6], viewMatrix[10]);
 
         // image is square
         int imageCenter = image.getWidth() / 2;
@@ -104,16 +104,20 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         double max = volume.getMaximum();
         for (int j = 0; j < image.getHeight(); j++) {
             for (int i = 0; i < image.getWidth(); i++) {
-                pixelCoord[0] = uVec[0] * (i - imageCenter) + vVec[0] * (j - imageCenter)
-                        + volumeCenter[0];
-                pixelCoord[1] = uVec[1] * (i - imageCenter) + vVec[1] * (j - imageCenter)
-                        + volumeCenter[1];
-                pixelCoord[2] = uVec[2] * (i - imageCenter) + vVec[2] * (j - imageCenter)
-                        + volumeCenter[2];
-
-                int val = getVoxel(pixelCoord);
+                
+                int rayDepth = (int)(volume.getDimX() * viewVec[0] + volume.getDimY() * viewVec[1] + volume.getDimZ() * viewVec[2]);
+                
+                int maxRay = 0;
+                for (int k = 0; k < rayDepth; k+=5) {
+                    pixelCoord[0] = uVec[0] * (i - imageCenter) + vVec[0] * (j - imageCenter) + (volumeCenter[0] + (k * viewVec[0]));
+                    pixelCoord[1] = uVec[1] * (i - imageCenter) + vVec[1] * (j - imageCenter) + (volumeCenter[1] + (k * viewVec[1]));
+                    pixelCoord[2] = uVec[2] * (i - imageCenter) + vVec[2] * (j - imageCenter) + (volumeCenter[2] + (k * viewVec[2]));
+                    int val = getVoxel(pixelCoord);
+                    maxRay = val > maxRay ? val : maxRay;
+                }
+                
                 // Apply the transfer function to obtain a color
-                TFColor voxelColor = tFunc.getColor(val);
+                TFColor voxelColor = tFunc.getColor(maxRay);
                 
                 // BufferedImage expects a pixel color packed as ARGB in an int
                 int c_alpha = voxelColor.a <= 1.0 ? (int) Math.floor(voxelColor.a * 255) : 255;
