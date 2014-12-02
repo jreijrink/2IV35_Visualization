@@ -74,6 +74,36 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
             return 0;
         }
     }
+    
+    // get a voxel from the volume data by tri-linear interpolation
+    // http://en.wikipedia.org/wiki/Trilinear_interpolation
+    short getTriVoxel(double[] coord) {
+
+        int x0 = (int) Math.floor(coord[0]);
+        int x1 = (int) Math.ceil(coord[0]);
+        int y0 = (int) Math.floor(coord[1]);
+        int y1 = (int) Math.ceil(coord[1]);
+        int z0 = (int) Math.floor(coord[2]);
+        int z1 = (int) Math.ceil(coord[2]);
+
+        if ((x0 >= 0) && (x1 < volume.getDimX()) && (y0 >= 0) && (y1 < volume.getDimY()) && (z0 >= 0) && (z1 < volume.getDimZ())) {
+            double xd = (coord[0]-x0)/(x1-x0);
+            double yd = (coord[1]-y0)/(y1-y0);
+            double zd = (coord[2]-z0)/(z1-z0);
+            
+            double c00 = volume.getVoxel(x0,y0,z0)*(1-xd) + volume.getVoxel(x1,y0,z0)*xd;
+            double c10 = volume.getVoxel(x0,y1,z0)*(1-xd) + volume.getVoxel(x1,y1,z0)*xd;
+            double c01 = volume.getVoxel(x0,y0,z1)*(1-xd) + volume.getVoxel(x1,y0,z1)*xd;
+            double c11 = volume.getVoxel(x0,y1,z1)*(1-xd) + volume.getVoxel(x1,y1,z1)*xd;
+            
+            double c0 = c00*(1-yd) + c10*yd;
+            double c1 = c01*(1-yd) + c11*yd;
+            
+            return (short)(c0*(1-zd) + c1*zd);
+        } else {
+            return 0;
+        }
+    }
 
     void slicer(double[] viewMatrix) {
 
@@ -112,8 +142,8 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                     pixelCoord[0] = uVec[0] * (i - imageCenter) + vVec[0] * (j - imageCenter) + (volumeCenter[0] + (k * viewVec[0]));
                     pixelCoord[1] = uVec[1] * (i - imageCenter) + vVec[1] * (j - imageCenter) + (volumeCenter[1] + (k * viewVec[1]));
                     pixelCoord[2] = uVec[2] * (i - imageCenter) + vVec[2] * (j - imageCenter) + (volumeCenter[2] + (k * viewVec[2]));
-                    int val = getVoxel(pixelCoord);
-                    maxRay += val > maxRay ? val : maxRay;
+                    int val = getTriVoxel(pixelCoord);
+                    maxRay = val > maxRay ? val : maxRay;
                 }
                 
                 // Apply the transfer function to obtain a color
