@@ -86,20 +86,29 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         int z0 = (int) Math.floor(coord[2]);
         int z1 = (int) Math.ceil(coord[2]);
 
-        if ((x0 >= 0) && (x1 < volume.getDimX()) && (y0 >= 0) && (y1 < volume.getDimY()) && (z0 >= 0) && (z1 < volume.getDimZ())) {
+        if ((x0 >= 0) && (x0 < volume.getDimX()) && (y0 >= 0) && (y0 < volume.getDimY()) && (z0 >= 0) && (z0 < volume.getDimZ()) &&
+            (x1 >= 0) && (x1 < volume.getDimX()) && (y1 >= 0) && (y1 < volume.getDimY()) && (z1 >= 0) && (z1 < volume.getDimZ())) {
             double xd = (coord[0]-x0)/(x1-x0);
             double yd = (coord[1]-y0)/(y1-y0);
             double zd = (coord[2]-z0)/(z1-z0);
             
-            double c00 = volume.getVoxel(x0,y0,z0)*(1-xd) + volume.getVoxel(x1,y0,z0)*xd;
-            double c10 = volume.getVoxel(x0,y1,z0)*(1-xd) + volume.getVoxel(x1,y1,z0)*xd;
-            double c01 = volume.getVoxel(x0,y0,z1)*(1-xd) + volume.getVoxel(x1,y0,z1)*xd;
-            double c11 = volume.getVoxel(x0,y1,z1)*(1-xd) + volume.getVoxel(x1,y1,z1)*xd;
+            if(Double.isNaN(xd) || Double.isNaN(yd) || Double.isNaN(zd))
+            {
+                return getVoxel(coord);
             
-            double c0 = c00*(1-yd) + c10*yd;
-            double c1 = c01*(1-yd) + c11*yd;
-            
-            return (short)(c0*(1-zd) + c1*zd);
+            }
+            else
+            {
+                double c00 = volume.getVoxel(x0,y0,z0)*(1-xd) + volume.getVoxel(x1,y0,z0)*xd;
+                double c10 = volume.getVoxel(x0,y1,z0)*(1-xd) + volume.getVoxel(x1,y1,z0)*xd;
+                double c01 = volume.getVoxel(x0,y0,z1)*(1-xd) + volume.getVoxel(x1,y0,z1)*xd;
+                double c11 = volume.getVoxel(x0,y1,z1)*(1-xd) + volume.getVoxel(x1,y1,z1)*xd;
+
+                double c0 = c00*(1-yd) + c10*yd;
+                double c1 = c01*(1-yd) + c11*yd;
+
+                return (short)(c0*(1-zd) + c1*zd);
+            }
         } else {
             return 0;
         }
@@ -133,7 +142,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         // sample on a plane through the origin of the volume data
         double max = volume.getMaximum();
         int diagnal = image.getWidth() / 2;
-        int step = 2;
+        int step = 1;
         
         for (int j = 0; j < image.getHeight(); j++) {            
             //speed optimazation, calculate once per j iteration
