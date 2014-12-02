@@ -102,18 +102,18 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
 
         // sample on a plane through the origin of the volume data
         double max = volume.getMaximum();
+
         for (int j = 0; j < image.getHeight(); j++) {
             for (int i = 0; i < image.getWidth(); i++) {
                 
-                int rayDepth = (int)(volume.getDimX() * viewVec[0] + volume.getDimY() * viewVec[1] + volume.getDimZ() * viewVec[2]);
-                
                 int maxRay = 0;
-                for (int k = 0; k < rayDepth; k+=5) {
+                int diagnal = image.getWidth() / 2;
+                for (int k = -diagnal; k < diagnal; k+=2) {
                     pixelCoord[0] = uVec[0] * (i - imageCenter) + vVec[0] * (j - imageCenter) + (volumeCenter[0] + (k * viewVec[0]));
                     pixelCoord[1] = uVec[1] * (i - imageCenter) + vVec[1] * (j - imageCenter) + (volumeCenter[1] + (k * viewVec[1]));
                     pixelCoord[2] = uVec[2] * (i - imageCenter) + vVec[2] * (j - imageCenter) + (volumeCenter[2] + (k * viewVec[2]));
                     int val = getVoxel(pixelCoord);
-                    maxRay = val > maxRay ? val : maxRay;
+                    maxRay += val > maxRay ? val : maxRay;
                 }
                 
                 // Apply the transfer function to obtain a color
