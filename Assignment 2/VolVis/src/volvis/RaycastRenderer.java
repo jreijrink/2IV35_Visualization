@@ -14,6 +14,9 @@ import javax.media.opengl.GL2;
 import util.TFChangeListener;
 import util.VectorMath;
 import volume.Volume;
+import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -141,8 +144,8 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
 
         // sample on a plane through the origin of the volume data
         double max = volume.getMaximum();
-        int diagnal = image.getWidth() / 2;
-        int step = 1;
+        int diagonal = image.getWidth() / 2;
+        int step = 2;
         
         for (int j = 0; j < image.getHeight(); j++) {            
             //speed optimazation, calculate once per j iteration
@@ -158,28 +161,50 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                 double uLocY = uVec[1] * iloc;
                 double uLocZ = uVec[2] * iloc;
                 
-                int maxRay = 0;                
-                for (int k = -diagnal; k < diagnal; k += step) {
-                    pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
-                    pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
-                    pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
+                TFColor[] voxelColors = new TFColor[diagonal * 2];                
+                for (int l = -diagonal; l < diagonal; l += step) {
+                    pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (l * viewVec[0]);
+                    pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (l * viewVec[1]);
+                    pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (l * viewVec[2]);
+
+                    int voxell = getTriVoxel(pixelCoord);
+                    TFColor voxelColor = tFunc.getColor(voxell);
+                    //Negative index not allowed
+                    voxelColors[l + diagonal] = voxelColor;
+                }
+                
+                TFColor sumColor = new TFColor(0, 0, 0, 0);
+                for (int k = -diagonal; k < diagonal; k += step) {                    
                     
-                    int val = getTriVoxel(pixelCoord);
+                    double multiAlpha = 1;
+                    for (int m = k+step; m < diagonal; m += step) {
+                        double alpha = voxelColors[m + diagonal].a;
+                        multiAlpha *= (1 - alpha);
+                    }
+                    
+                    TFColor voxelColor = voxelColors[k + diagonal];
+                    voxelColor.multiply(multiAlpha);
+                                        
+                    sumColor.add(voxelColor);
+                    /*
                     maxRay = val > maxRay ? val : maxRay;
                     //speed optimazation
                     if(maxRay == max) break;
+                    */
                 }
                 
                 // Apply the transfer function to obtain a color
-                TFColor voxelColor = tFunc.getColor(maxRay);
+                // uncomment when using MIP
+                //TFColor voxelColor = tFunc.getColor(maxRay);
                 
                 // BufferedImage expects a pixel color packed as ARGB in an int
-                int c_alpha = voxelColor.a <= 1.0 ? (int) Math.floor(voxelColor.a * 255) : 255;
-                int c_red = voxelColor.r <= 1.0 ? (int) Math.floor(voxelColor.r * 255) : 255;
-                int c_green = voxelColor.g <= 1.0 ? (int) Math.floor(voxelColor.g * 255) : 255;
-                int c_blue = voxelColor.b <= 1.0 ? (int) Math.floor(voxelColor.b * 255) : 255;
+                int c_alpha = sumColor.a <= 1.0 ? (int) Math.floor(sumColor.a * 255) : 255;
+                int c_red = sumColor.r <= 1.0 ? (int) Math.floor(sumColor.r * 255) : 255;
+                int c_green = sumColor.g <= 1.0 ? (int) Math.floor(sumColor.g * 255) : 255;
+                int c_blue = sumColor.b <= 1.0 ? (int) Math.floor(sumColor.b * 255) : 255;
                 int pixelColor = (c_alpha << 24) | (c_red << 16) | (c_green << 8) | c_blue;
                 image.setRGB(i, j, pixelColor);
+                
             }
         }
 

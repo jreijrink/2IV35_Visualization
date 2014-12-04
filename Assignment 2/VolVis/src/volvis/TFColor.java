@@ -27,4 +27,19 @@ public class TFColor {
         String text = "(" + r + ", " + g + ", " + b + ", " + a + ")";
         return text;
     }
+    
+    public void add(TFColor c) {
+        this.a += c.a;
+        this.r += c.r;
+        this.g += c.g;
+        this.b += c.b;
+    }
+    
+    public void multiply(double i) {
+        this.a *= i;
+        this.r *= i;
+        this.g *= i;
+        this.b *= i;
+    }
+    
 }
