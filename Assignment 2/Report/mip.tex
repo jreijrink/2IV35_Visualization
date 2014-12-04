@@ -2,6 +2,7 @@
 
 \subsection{Tri-linear Interpolation}\label{sec:tri_linear}
 - added function getTriVoxel
+- http://en.wikipedia.org/wiki/Trilinear_interpolation
 
 \begin{figure}[h!]
     \centering
@@ -22,4 +23,4 @@
 
 - took location calculation for i and j out of the for-loop
 - let loop break when a value of 255 is already found (can't get any higher) (does not work for composite!?)
-- todo: stop the walk along a ray when it comes out of the bounding box. 
+- todo: compute the length of the ray before entering the k-loop (depth-loop)
