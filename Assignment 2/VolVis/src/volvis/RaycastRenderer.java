@@ -161,21 +161,43 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                 double uLocY = uVec[1] * iloc;
                 double uLocZ = uVec[2] * iloc;
                 
-                TFColor[] voxelColors = new TFColor[diagonal * 2];                
-                for (int l = -diagonal; l < diagonal; l += step) {
-                    pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (l * viewVec[0]);
-                    pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (l * viewVec[1]);
-                    pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (l * viewVec[2]);
-
-                    int voxell = getTriVoxel(pixelCoord);
-                    TFColor voxelColor = tFunc.getColor(voxell);
-                    //Negative index not allowed
-                    voxelColors[l + diagonal] = voxelColor;
-                }
+                TFColor sumColor = new TFColor(1, 0, 0, 0);
+                double sumTransparency = 1;
                 
-                TFColor sumColor = new TFColor(0, 0, 0, 0);
-                for (int k = -diagonal; k < diagonal; k += step) {                    
+                for (int k = -diagonal; k < diagonal; k += step) {  
+                //for (int k = diagonal; k > -diagonal; k -= step) {
                     
+                    pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
+                    pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
+                    pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
+
+                    
+                    
+                    
+                    
+                    
+                    int voxel = getTriVoxel(pixelCoord);
+                    TFColor voxelColor = new TFColor(0, 0, 0, 0);
+                    if(voxel != 0)
+                    {
+                        voxelColor = tFunc.getColor(voxel);
+                    }                    
+                    double alpha = voxelColor.a;
+                    
+                    TFColor newAddedColor = voxelColor.multiplyColor(alpha);
+                    newAddedColor = newAddedColor.multiplyColor(sumTransparency);
+                    sumColor = sumColor.addColors(newAddedColor);                    
+                    sumTransparency = (1 - alpha) * sumTransparency;
+                    
+                    /*
+                    //voxelColor.multiply(alpha);                    
+                    sumColor.multiply(1 - alpha);                    
+                    sumColor.add(voxelColor);
+                    */
+                    
+                    
+                    
+                    /*
                     double multiAlpha = 1;
                     for (int m = k+step; m < diagonal; m += step) {
                         double alpha = voxelColors[m + diagonal].a;
@@ -186,12 +208,11 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                     voxelColor.multiply(multiAlpha);
                                         
                     sumColor.add(voxelColor);
-                    /*
-                    maxRay = val > maxRay ? val : maxRay;
-                    //speed optimazation
-                    if(maxRay == max) break;
                     */
+                    
                 }
+
+                //System.out.println(sumColor.toString());
                 
                 // Apply the transfer function to obtain a color
                 // uncomment when using MIP
