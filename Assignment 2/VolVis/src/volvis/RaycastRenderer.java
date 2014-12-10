@@ -117,7 +117,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         }
     }
 
-    void slicer(double[] viewMatrix) {
+    void slicer(double[] viewMatrix, boolean mouseEvent) {
 
         // clear image
         for (int j = 0; j < image.getHeight(); j++) {
@@ -145,7 +145,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         // sample on a plane through the origin of the volume data
         double max = volume.getMaximum();
         int diagonal = image.getWidth() / 2;
-        int step = 2;
+        int step = mouseEvent ? 10 : 1;
         
         for (int j = 0; j < image.getHeight(); j++) {            
             //speed optimazation, calculate once per j iteration
@@ -218,13 +218,16 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                 // uncomment when using MIP
                 //TFColor voxelColor = tFunc.getColor(maxRay);
                 
-                // BufferedImage expects a pixel color packed as ARGB in an int
-                int c_alpha = sumColor.a <= 1.0 ? (int) Math.floor(sumColor.a * 255) : 255;
-                int c_red = sumColor.r <= 1.0 ? (int) Math.floor(sumColor.r * 255) : 255;
-                int c_green = sumColor.g <= 1.0 ? (int) Math.floor(sumColor.g * 255) : 255;
-                int c_blue = sumColor.b <= 1.0 ? (int) Math.floor(sumColor.b * 255) : 255;
-                int pixelColor = (c_alpha << 24) | (c_red << 16) | (c_green << 8) | c_blue;
-                image.setRGB(i, j, pixelColor);
+                if(!sumColor.IsBlack())
+                {
+                    // BufferedImage expects a pixel color packed as ARGB in an int
+                    int c_alpha = sumColor.a <= 1.0 ? (int) Math.floor(sumColor.a * 255) : 255;
+                    int c_red = sumColor.r <= 1.0 ? (int) Math.floor(sumColor.r * 255) : 255;
+                    int c_green = sumColor.g <= 1.0 ? (int) Math.floor(sumColor.g * 255) : 255;
+                    int c_blue = sumColor.b <= 1.0 ? (int) Math.floor(sumColor.b * 255) : 255;
+                    int pixelColor = (c_alpha << 24) | (c_red << 16) | (c_green << 8) | c_blue;
+                    image.setRGB(i, j, pixelColor);
+                }
                 
             }
         }
@@ -292,9 +295,9 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
     }
 
     @Override
-    public void visualize(GL2 gl) {
-
-
+    public void visualize(GL2 gl, boolean mouseMove) {
+        System.out.println(mouseMove);
+        
         if (volume == null) {
             return;
         }
@@ -304,7 +307,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, viewMatrix, 0);
 
         long startTime = System.currentTimeMillis();
-        slicer(viewMatrix);
+        slicer(viewMatrix, mouseMove);
         long endTime = System.currentTimeMillis();
         double runningTime = (endTime - startTime);
         panel.setSpeedLabel(Double.toString(runningTime));

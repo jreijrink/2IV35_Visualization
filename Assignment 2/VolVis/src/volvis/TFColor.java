@@ -58,4 +58,12 @@ public class TFColor {
         multiplyColor.a *= i;
         return multiplyColor;
     }
+     
+    public boolean IsBlack()
+    {
+        if(this.r < 0.01 && this.g < 0.01 && this.b < 0.01)
+            return true;
+        else
+            return false;
+    }
 }

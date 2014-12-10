@@ -57,5 +57,5 @@ public abstract class Renderer {
         }
     }
     
-    public abstract void visualize(GL2 gl);
+    public abstract void visualize(GL2 gl, boolean mouseMove);
 }

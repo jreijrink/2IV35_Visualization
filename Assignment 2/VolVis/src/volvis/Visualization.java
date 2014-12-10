@@ -31,9 +31,11 @@ public class Visualization implements GLEventListener, TFChangeListener {
     int winWidth, winHeight;
     double fov = 20.0;
     TrackballInteractor trackball;
-        
+    boolean mouseMouse;
+    
     public Visualization(GLCanvas canvas) {
         this.renderers = new ArrayList<Renderer>();
+        this.mouseMouse = false;
         this.canvas = canvas;
         canvas.addMouseMotionListener(new MouseMotionListener()); // listens to drag events
         canvas.addMouseListener(new MousePressListener());
@@ -46,7 +48,8 @@ public class Visualization implements GLEventListener, TFChangeListener {
         renderers.add(vis);
     }
 
-    public void update() {
+    public void update(boolean mouseMove) {
+        this.mouseMouse = mouseMove;
         canvas.repaint(50);
     }
     
@@ -97,7 +100,7 @@ public class Visualization implements GLEventListener, TFChangeListener {
        
         // call the visualize() methods of all subscribed renderers
         for (int i = 0; i < renderers.size(); i++) {
-            renderers.get(i).visualize(gl);
+            renderers.get(i).visualize(gl, mouseMouse);
             // blocking call ensures drawing of renderer is completed before
             // next one starts
             gl.glFlush();
@@ -107,6 +110,8 @@ public class Visualization implements GLEventListener, TFChangeListener {
     // reshape handles window resize
    @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+        this.mouseMouse = false;
+        
         GL2 gl = drawable.getGL().getGL2();
         gl.glViewport(0, 0, width, height);
         for (int i = 0; i < renderers.size(); i++) {
@@ -140,7 +145,7 @@ public class Visualization implements GLEventListener, TFChangeListener {
            for (int i = 0; i < renderers.size(); i++) {
                renderers.get(i).setInteractiveMode(false);
            }
-           update();
+           update(false);
        }
    }
    
@@ -151,7 +156,7 @@ public class Visualization implements GLEventListener, TFChangeListener {
         public void mouseDragged(MouseEvent e) {
              trackball.drag(e.getX(), e.getY());
              trackball.setRotating(true);
-             update();
+             update(true);
           }
           
         }
@@ -169,7 +174,7 @@ public class Visualization implements GLEventListener, TFChangeListener {
             } else { // down
                 fov++;
             }
-            update();
+            update(false);
         }
         
     }

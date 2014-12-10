@@ -165,7 +165,7 @@ public class VolVisApplication extends javax.swing.JFrame {
                 infoText = infoText.concat("voxel value range:\t" + volume.getMinimum() + " - " + volume.getMaximum());
                 infoTextPane.setText(infoText);
                 raycastRenderer.setVolume(volume);
-                visualization.update();
+                visualization.update(false);
 
         }
     }//GEN-LAST:event_loadButtonActionPerformed
