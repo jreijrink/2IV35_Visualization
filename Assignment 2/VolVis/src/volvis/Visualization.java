@@ -53,15 +53,10 @@ public class Visualization implements GLEventListener, TFChangeListener {
         canvas.repaint(50);
     }
     
-
   @Override
     public void changed() {
         canvas.display();
     }
-
-
-    
-
 
    @Override
     public void init(GLAutoDrawable drawable) {

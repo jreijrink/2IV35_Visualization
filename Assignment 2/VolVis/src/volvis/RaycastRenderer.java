@@ -14,9 +14,6 @@ import javax.media.opengl.GL2;
 import util.TFChangeListener;
 import util.VectorMath;
 import volume.Volume;
-import java.util.ArrayList;
-import java.io.*;
-import java.util.*;
 
 /**
  *
@@ -28,10 +25,17 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
     RaycastRendererPanel panel;
     TransferFunction tFunc;
     TransferFunctionEditor tfEditor;
-
+    private RenderMode _selectedRenderMode;
+    private int _selectedStepSize;
+    
+    public enum RenderMode { MIP, Compsiting };
+    
     public RaycastRenderer() {
         panel = new RaycastRendererPanel(this);
         panel.setSpeedLabel("0");
+        
+        SetStepSize(5);
+        SetRenderMode(RenderMode.Compsiting);
     }
 
     public void setVolume(Volume vol) {
@@ -48,9 +52,14 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         tFunc = new TransferFunction(volume.getMinimum(), volume.getMaximum());
         tFunc.addTFChangeListener(this);
         tfEditor = new TransferFunctionEditor(tFunc, volume.getHistogram());
+        
         panel.setTransferFunctionEditor(tfEditor);
-
-
+        
+        tfEditor.setSelectedRenderMode(_selectedRenderMode);
+        tfEditor.setSelectedStepSize(_selectedStepSize);
+        tfEditor.setSelectedInfo(winWidth, winWidth, imageSize, null);
+        
+        panel.setTransferFunctionEditor(tfEditor);
     }
 
     @Override
@@ -60,6 +69,16 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         }
     }
 
+    public void SetStepSize(int size)
+    {
+        _selectedStepSize = size;
+    }
+    
+    public void SetRenderMode(RenderMode mode)
+    {
+        _selectedRenderMode = mode;
+    }
+    
     public RaycastRendererPanel getPanel() {
         return panel;
     }
@@ -118,9 +137,8 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
     }
 
     void slicer(double[] viewMatrix, boolean mouseEvent) {
-
         // clear image
-        for (int j = 0; j < image.getHeight(); j++) {
+         for (int j = 0; j < image.getHeight(); j++) {
             for (int i = 0; i < image.getWidth(); i++) {
                 image.setRGB(i, j, 0);
             }
@@ -145,7 +163,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
         // sample on a plane through the origin of the volume data
         double max = volume.getMaximum();
         int diagonal = image.getWidth() / 2;
-        int step = mouseEvent ? 10 : 1;
+        int step = mouseEvent ? 10 : _selectedStepSize;
         
         for (int j = 0; j < image.getHeight(); j++) {            
             //speed optimazation, calculate once per j iteration
@@ -161,78 +179,61 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                 double uLocY = uVec[1] * iloc;
                 double uLocZ = uVec[2] * iloc;
                 
-                TFColor sumColor = new TFColor(1, 0, 0, 0);
-                double sumTransparency = 1;
-                
-                for (int k = -diagonal; k < diagonal; k += step) {  
-                //for (int k = diagonal; k > -diagonal; k -= step) {
+                TFColor rayColor = new TFColor(0, 0, 0, 0);
                     
-                    pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
-                    pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
-                    pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
+                if(_selectedRenderMode == RenderMode.MIP)
+                {
+                    int maxRay = 0;                
+                    for (int k = -diagonal; k < diagonal; k += step) {
+                        pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
+                        pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
+                        pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
 
-                    
-                    
-                    
-                    
-                    
-                    int voxel = getTriVoxel(pixelCoord);
-                    TFColor voxelColor = new TFColor(0, 0, 0, 0);
-                    if(voxel != 0)
-                    {
-                        voxelColor = tFunc.getColor(voxel);
-                    }                    
-                    double alpha = voxelColor.a;
-                    
-                    TFColor newAddedColor = voxelColor.multiplyColor(alpha);
-                    newAddedColor = newAddedColor.multiplyColor(sumTransparency);
-                    sumColor = sumColor.addColors(newAddedColor);                    
-                    sumTransparency = (1 - alpha) * sumTransparency;
-                    
-                    /*
-                    //voxelColor.multiply(alpha);                    
-                    sumColor.multiply(1 - alpha);                    
-                    sumColor.add(voxelColor);
-                    */
-                    
-                    
-                    
-                    /*
-                    double multiAlpha = 1;
-                    for (int m = k+step; m < diagonal; m += step) {
-                        double alpha = voxelColors[m + diagonal].a;
-                        multiAlpha *= (1 - alpha);
+                        int val = getTriVoxel(pixelCoord);
+                        maxRay = val > maxRay ? val : maxRay;
+                        //speed optimazation
+                        if(maxRay == max) break;
                     }
-                    
-                    TFColor voxelColor = voxelColors[k + diagonal];
-                    voxelColor.multiply(multiAlpha);
-                                        
-                    sumColor.add(voxelColor);
-                    */
-                    
+                    // Apply the transfer function to obtain a color
+                    rayColor = tFunc.getColor(maxRay);
                 }
+                else if(_selectedRenderMode == RenderMode.Compsiting)
+                {
+                    rayColor = new TFColor(1, 0, 0, 0);
+                    double sumTransparency = 1;
+                    
+                    for (int k = -diagonal; k < diagonal; k += step) {
+                        pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
+                        pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
+                        pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
 
-                //System.out.println(sumColor.toString());
-                
-                // Apply the transfer function to obtain a color
-                // uncomment when using MIP
-                //TFColor voxelColor = tFunc.getColor(maxRay);
-                
-                if(!sumColor.IsBlack())
+                        int voxel = getTriVoxel(pixelCoord);
+                        TFColor voxelColor = new TFColor(0, 0, 0, 0);
+                        if(voxel != 0)
+                        {
+                            voxelColor = tFunc.getColor(voxel);
+                        }                    
+                        double alpha = voxelColor.a;
+
+                        TFColor newAddedColor = voxelColor.multiplyColor(alpha);
+                        newAddedColor = newAddedColor.multiplyColor(sumTransparency);
+                        rayColor = rayColor.addColors(newAddedColor);                    
+                        sumTransparency = (1 - alpha) * sumTransparency;
+                    }
+                }
+                    
+                if(!rayColor.IsBlack())
                 {
                     // BufferedImage expects a pixel color packed as ARGB in an int
-                    int c_alpha = sumColor.a <= 1.0 ? (int) Math.floor(sumColor.a * 255) : 255;
-                    int c_red = sumColor.r <= 1.0 ? (int) Math.floor(sumColor.r * 255) : 255;
-                    int c_green = sumColor.g <= 1.0 ? (int) Math.floor(sumColor.g * 255) : 255;
-                    int c_blue = sumColor.b <= 1.0 ? (int) Math.floor(sumColor.b * 255) : 255;
+                    int c_alpha = rayColor.a <= 1.0 ? (int) Math.floor(rayColor.a * 255) : 255;
+                    int c_red = rayColor.r <= 1.0 ? (int) Math.floor(rayColor.r * 255) : 255;
+                    int c_green = rayColor.g <= 1.0 ? (int) Math.floor(rayColor.g * 255) : 255;
+                    int c_blue = rayColor.b <= 1.0 ? (int) Math.floor(rayColor.b * 255) : 255;
                     int pixelColor = (c_alpha << 24) | (c_red << 16) | (c_green << 8) | c_blue;
                     image.setRGB(i, j, pixelColor);
                 }
-                
             }
         }
-
-
     }
 
     private void drawBoundingBox(GL2 gl) {
@@ -296,12 +297,14 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
 
     @Override
     public void visualize(GL2 gl, boolean mouseMove) {
-        System.out.println(mouseMove);
+        //System.out.println(mouseMove);
         
         if (volume == null) {
             return;
         }
 
+        _selectedRenderMode = tfEditor.getSelectedRenderMode();
+        _selectedStepSize = tfEditor.getSelectedStepSize();
         drawBoundingBox(gl);
 
         gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, viewMatrix, 0);
