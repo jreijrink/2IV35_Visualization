@@ -1,8 +1,28 @@
+%% ----------------------------------------------------------------------------------
+%% GUIDELINES
+%% ----------------------------------------------------------------------------------
+%% - Provide details about techniques/methods that you use. Do not just write “We have
+%% implemented the marching cubes algorithm”. Describe the method too, in your own
+%% words. Even if it is well described in a book, you should still explain the method
+%% yourself; this is part of the exercise. Also, the reader may not know the method, nor
+%% can the reader be bothered to find the document that you are referring to.
+%% - Discuss interesting implementation aspects, but do not include code fragments in the
+%% text. Pseudo code is allowed, but mathematical formulas are preferred.
+%% - Describe parameters of methods and explain which settings you used and why.
+%% - Provide evidence that the method you have implemented actually works as intended.
+%% - Explain how you designed a color map, a transfer function, or even your whole visualization
+%% approach.
+
 \section{MIP}\label{sec:mip}
+We will start this section with explaning how the MIP raycaster was developed from the initially provided application. The initial code simply used to take a slice (plane) through the data. This plane would go through the exact center of the bounding box, and would be tilted in order to be perpendicular to the view vector at all times.
+
+
+- add the depth part rather than just plane
+- diagonal is diagonal of the bounding box
 
 \subsection{Tri-linear Interpolation}\label{sec:tri_linear}
 - added function getTriVoxel
-- http://en.wikipedia.org/wiki/Trilinear_interpolation
+- %http://en.wikipedia.org/wiki/Trilinear_interpolation
 
 \begin{figure}[h!]
     \centering
@@ -23,4 +43,4 @@
 
 - took location calculation for i and j out of the for-loop
 - let loop break when a value of 255 is already found (can't get any higher) (does not work for composite!?)
-- todo: compute the length of the ray before entering the k-loop (depth-loop)
+- todo: compute the length of the ray before entering the k-loop (depth-loop) 
