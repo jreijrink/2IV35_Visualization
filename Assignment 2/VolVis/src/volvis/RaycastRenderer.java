@@ -211,14 +211,14 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                         TFColor voxelColor = new TFColor(0, 0, 0, 0);
                         if(voxel != 0)
                         {
-                            voxelColor = tFunc.getColor(voxel);
-                        }                    
-                        double alpha = voxelColor.a;
+                            voxelColor = tFunc.getColor(voxel);                 
+                            double alpha = voxelColor.a;
 
-                        TFColor newAddedColor = voxelColor.multiplyColor(alpha);
-                        newAddedColor = newAddedColor.multiplyColor(sumTransparency);
-                        rayColor = rayColor.addColors(newAddedColor);                    
-                        sumTransparency = (1 - alpha) * sumTransparency;
+                            TFColor newAddedColor = voxelColor.multiplyColor(alpha);
+                            newAddedColor = newAddedColor.multiplyColor(sumTransparency);
+                            rayColor = rayColor.addColors(newAddedColor);                    
+                            sumTransparency = (1 - alpha) * sumTransparency;
+                        }   
                     }
                 }
                     
