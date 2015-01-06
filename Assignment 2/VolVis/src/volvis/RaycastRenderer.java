@@ -136,6 +136,59 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
             return 0;
         }
     }
+    
+    double getVoxelGradient(double[] coord) {
+
+        int x0 = (int) Math.floor(coord[0]);
+        int x1 = (int) Math.ceil(coord[0]);
+        int y0 = (int) Math.floor(coord[1]);
+        int y1 = (int) Math.ceil(coord[1]);
+        int z0 = (int) Math.floor(coord[2]);
+        int z1 = (int) Math.ceil(coord[2]);
+
+        if ((x0 >= 0) && (x0 < volume.getDimX()) && (y0 >= 0) && (y0 < volume.getDimY()) && (z0 >= 0) && (z0 < volume.getDimZ()) &&
+            (x1 >= 0) && (x1 < volume.getDimX()) && (y1 >= 0) && (y1 < volume.getDimY()) && (z1 >= 0) && (z1 < volume.getDimZ())) {
+            double xd = (coord[0]-x0)/(x1-x0);
+            double yd = (coord[1]-y0)/(y1-y0);
+            double zd = (coord[2]-z0)/(z1-z0);
+            
+            if(Double.isNaN(xd) || Double.isNaN(yd) || Double.isNaN(zd))
+            {
+                return getVoxel(coord);
+            
+            }
+            else
+            {
+                double c00 = volume.getVoxel(x0,y0,z0)*(1-xd) + volume.getVoxel(x1,y0,z0)*xd;
+                double c10 = volume.getVoxel(x0,y1,z0)*(1-xd) + volume.getVoxel(x1,y1,z0)*xd;
+                double c01 = volume.getVoxel(x0,y0,z1)*(1-xd) + volume.getVoxel(x1,y0,z1)*xd;
+                double c11 = volume.getVoxel(x0,y1,z1)*(1-xd) + volume.getVoxel(x1,y1,z1)*xd;
+                
+                double c0 = c00*(1-yd) + c10*yd;
+                double c1 = c01*(1-yd) + c11*yd;
+                
+                double e0 = c00*(1-zd) + c01*zd;
+                double e1 = c10*(1-zd) + c11*zd;
+                
+                double g00 = volume.getVoxel(x0,y0,z0)*(1-zd) + volume.getVoxel(x0,y0,z1)*zd;
+                double g10 = volume.getVoxel(x1,y0,z0)*(1-zd) + volume.getVoxel(x1,y0,z1)*zd;
+                double g01 = volume.getVoxel(x0,y1,z0)*(1-zd) + volume.getVoxel(x0,y1,z1)*zd;
+                double g11 = volume.getVoxel(x1,y1,z0)*(1-zd) + volume.getVoxel(x1,y1,z1)*zd;
+                
+                double g0 = g00*(1-yd) + g01*yd;
+                double g1 = g10*(1-yd) + g11*yd;
+                
+                
+                double xdir = Math.abs(g0-g1);
+                double ydir = Math.abs(e0-e1);
+                double zdir = Math.abs(c0-c1);
+                
+                return (xdir + ydir + zdir);
+            }
+        } else {
+            return 0;
+        }
+    }
 
     void slicer(double[] viewMatrix, boolean mouseEvent) {
         // clear image
@@ -233,6 +286,8 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                         pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
 
                         int voxel = getTriVoxel(pixelCoord);
+                        double gradient = getVoxelGradient(pixelCoord);
+                        double normal = gradient / max;
                         
                         TFColor voxelColor = new TFColor(0, 0, 0, 0);
                         if(voxel != 0)
@@ -244,11 +299,11 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                             double avr = rightVoxel.color.a;
                             int fvl = leftVoxel.value;
                             int fvr = rightVoxel.value;
-                                                       
+                            
                             voxelColor = tFunc.getColor(voxel);                 
-                            double alpha = 0;
+                            double alpha = normal * leftVoxel.color.a;
                             if (fvr != fvl) {
-                                alpha = (avr * ((double)(voxel - fvl)/(double)(fvr - fvl)))
+                                alpha = normal * (avr * ((double)(voxel - fvl)/(double)(fvr - fvl)))
                                     + (avl * ((double)(fvr - voxel)/(double)(fvr - fvl)));
                             }
                             
