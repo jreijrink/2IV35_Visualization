@@ -38,6 +38,7 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
         ButtonGroup group = new ButtonGroup();        
         group.add(this.jRadioButtonCom);
         group.add(this.jRadioButtonMIP);
+        group.add(this.jRadioButtonOpacity);
 
     }
 
@@ -74,6 +75,7 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jRadioButtonMIP = new javax.swing.JRadioButton();
         jRadioButtonCom = new javax.swing.JRadioButton();
+        jRadioButtonOpacity = new javax.swing.JRadioButton();
         jSliderStep = new javax.swing.JSlider();
 
         org.jdesktop.layout.GroupLayout histogramPanelLayout = new org.jdesktop.layout.GroupLayout(histogramPanel);
@@ -117,11 +119,11 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 180, Short.MAX_VALUE)
+            .add(0, 233, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 190, Short.MAX_VALUE)
+            .add(0, 0, Short.MAX_VALUE)
         );
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -151,6 +153,14 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
             }
         });
 
+        jRadioButtonOpacity.setText("Opacity");
+        jRadioButtonOpacity.setHideActionText(true);
+        jRadioButtonOpacity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpacityRendererSelected(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -160,14 +170,17 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jRadioButtonCom, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jRadioButtonMIP, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .add(jRadioButtonOpacity, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .add(jRadioButtonMIP)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jRadioButtonOpacity)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jRadioButtonCom)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jSliderStep.setMaximum(10);
@@ -212,7 +225,7 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, opacityTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(jSliderStep, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 108, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 55, Short.MAX_VALUE)
                         .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
@@ -248,7 +261,7 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
                             .add(layout.createSequentialGroup()
                                 .add(1, 1, 1)
                                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(27, 27, 27)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(jSliderStep, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -284,15 +297,23 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
     
     public void setSelectedRenderMode(RaycastRenderer.RenderMode mode)
     {
-        if(mode == RaycastRenderer.RenderMode.Compsiting)
+        if(mode == RaycastRenderer.RenderMode.Opacity)
+        {
+            this.jRadioButtonCom.setSelected(false);
+            this.jRadioButtonMIP.setSelected(false);
+            this.jRadioButtonOpacity.setSelected(true);
+        }
+        else if(mode == RaycastRenderer.RenderMode.Compositing)
         {
             this.jRadioButtonCom.setSelected(true);
             this.jRadioButtonMIP.setSelected(false);
+            this.jRadioButtonOpacity.setSelected(false);
         }
         else if(mode == RaycastRenderer.RenderMode.MIP)
         {
             this.jRadioButtonCom.setSelected(false);
             this.jRadioButtonMIP.setSelected(true);
+            this.jRadioButtonOpacity.setSelected(false);
         }
         rendermode = mode;
     }
@@ -309,7 +330,7 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
     }//GEN-LAST:event_MIPRendererSelected
 
     private void CompositingRendererSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompositingRendererSelected
-        rendermode = RaycastRenderer.RenderMode.Compsiting;
+        rendermode = RaycastRenderer.RenderMode.Compositing;
         tfunc.changed();
     }//GEN-LAST:event_CompositingRendererSelected
 
@@ -321,6 +342,11 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
             tfunc.changed();
         }
     }//GEN-LAST:event_stepSliderChanged
+
+    private void OpacityRendererSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpacityRendererSelected
+        rendermode = RaycastRenderer.RenderMode.Opacity;
+        tfunc.changed();
+    }//GEN-LAST:event_OpacityRendererSelected
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton colorButton;
@@ -337,6 +363,7 @@ public class TransferFunctionEditor extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButtonCom;
     private javax.swing.JRadioButton jRadioButtonMIP;
+    private javax.swing.JRadioButton jRadioButtonOpacity;
     private javax.swing.JSlider jSliderStep;
     private javax.swing.JTextField opacityTextField;
     private javax.swing.JTextField scalarTextField;

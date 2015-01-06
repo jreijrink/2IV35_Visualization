@@ -7,6 +7,7 @@ package volvis;
 import java.awt.Color;
 import java.util.ArrayList;
 import util.TFChangeListener;
+import java.util.Iterator;
 
 /**
  *
@@ -44,6 +45,44 @@ public class TransferFunction {
 
     public ArrayList<ControlPoint> getControlPoints() {
         return controlPoints;
+    }
+    
+    public ControlPoint getLeftControlPoint(int value) {
+        ControlPoint leftPoint = null;
+        for(Iterator<ControlPoint> i=controlPoints.iterator(); i.hasNext(); ) {
+            ControlPoint item = i.next();
+            if(leftPoint == null)
+            {
+                if(item.value <= value)
+                {
+                    leftPoint = item;
+                }
+            }
+            else if (item.value > leftPoint.value && item.value <= value)
+            {
+                leftPoint = item;
+            }
+        }
+        return leftPoint;
+    }
+    
+    public ControlPoint getRightControlPoint(int value) {
+        ControlPoint rightPoint = null;
+        for(Iterator<ControlPoint> i=controlPoints.iterator(); i.hasNext(); ) {
+            ControlPoint item = i.next();
+            if(rightPoint == null)
+            {
+                if(item.value >= value)
+                {
+                    rightPoint = item;
+                }
+            }
+            else if (item.value < rightPoint.value && item.value >= value)
+            {
+                rightPoint = item;
+            }
+        }
+        return rightPoint;
     }
 
     public TFColor getColor(int value) {

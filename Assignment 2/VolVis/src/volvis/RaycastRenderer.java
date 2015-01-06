@@ -14,6 +14,7 @@ import javax.media.opengl.GL2;
 import util.TFChangeListener;
 import util.VectorMath;
 import volume.Volume;
+import volvis.TransferFunction.ControlPoint;
 
 /**
  *
@@ -28,14 +29,14 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
     private RenderMode _selectedRenderMode;
     private int _selectedStepSize;
     
-    public enum RenderMode { MIP, Compsiting };
+    public enum RenderMode { MIP, Compositing, Opacity };
     
     public RaycastRenderer() {
         panel = new RaycastRendererPanel(this);
         panel.setSpeedLabel("0");
         
         SetStepSize(5);
-        SetRenderMode(RenderMode.Compsiting);
+        SetRenderMode(RenderMode.Opacity);
     }
 
     public void setVolume(Volume vol) {
@@ -197,7 +198,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                     // Apply the transfer function to obtain a color
                     rayColor = tFunc.getColor(maxRay);
                 }
-                else if(_selectedRenderMode == RenderMode.Compsiting)
+                else if(_selectedRenderMode == RenderMode.Compositing)
                 {
                     rayColor = new TFColor(1, 0, 0, 0);
                     double sumTransparency = 1;
@@ -213,6 +214,44 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
                         {
                             voxelColor = tFunc.getColor(voxel);                 
                             double alpha = voxelColor.a;
+
+                            TFColor newAddedColor = voxelColor.multiplyColor(alpha);
+                            newAddedColor = newAddedColor.multiplyColor(sumTransparency);
+                            rayColor = rayColor.addColors(newAddedColor);                    
+                            sumTransparency = (1 - alpha) * sumTransparency;
+                        }   
+                    }
+                }
+                else if(_selectedRenderMode == RenderMode.Opacity)
+                {
+                    rayColor = new TFColor(1, 0, 0, 0);
+                    double sumTransparency = 1;
+                    
+                    for (int k = -diagonal; k < diagonal; k += step) {
+                        pixelCoord[0] = uLocX + vLocX + volumeCenter[0] + (k * viewVec[0]);
+                        pixelCoord[1] = uLocY + vLocY + volumeCenter[1] + (k * viewVec[1]);
+                        pixelCoord[2] = uLocZ + vLocZ + volumeCenter[2] + (k * viewVec[2]);
+
+                        int voxel = getTriVoxel(pixelCoord);
+                        
+                        TFColor voxelColor = new TFColor(0, 0, 0, 0);
+                        if(voxel != 0)
+                        {
+                            ControlPoint leftVoxel = tFunc.getLeftControlPoint(voxel);
+                            ControlPoint rightVoxel = tFunc.getRightControlPoint(voxel);
+                            
+                            double avl = leftVoxel.color.a;
+                            double avr = rightVoxel.color.a;
+                            int fvl = leftVoxel.value;
+                            int fvr = rightVoxel.value;
+                                                       
+                            voxelColor = tFunc.getColor(voxel);                 
+                            double alpha = 0;
+                            if (fvr != fvl) {
+                                alpha = (avr * ((double)(voxel - fvl)/(double)(fvr - fvl)))
+                                    + (avl * ((double)(fvr - voxel)/(double)(fvr - fvl)));
+                            }
+                            
 
                             TFColor newAddedColor = voxelColor.multiplyColor(alpha);
                             newAddedColor = newAddedColor.multiplyColor(sumTransparency);
