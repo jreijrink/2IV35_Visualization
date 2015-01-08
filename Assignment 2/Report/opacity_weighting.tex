@@ -28,7 +28,7 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
 \]
  Here, $f(x_i)$ is the value of the render point, $f_{v_n}$ the value of the first control point in the transfer function to the left of the render point its value, and $f_{v_{n+1}}$ the value of the first control point to the right of the render point its value. $\alpha_{v_n}$ and $\alpha_{v_{n+1}}$ are the alpha values defined in the transfer function by the user for the two control points.
 
-
+In order to apply the opacity weighting technique, an additional radio box was added to the graphical user interface. The values of $f_{v_n}$, $f_{v_{n+1}}$, $\alpha_{v_n}$ and $\alpha_{v_{n+1}}$ can be adjusted by the user by positioning and/or adding control points in the transfer function.
 
 % main idea behind the technique: "suppress the opacity of the tissue interiors while enhancing the opacity of their bounding surfaces"
 
@@ -50,36 +50,34 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
 
 
 \subsection{Comparison with Compositing}\label{subsec:opacity_compare}
+When comparing opacity weighting with the compositing rendering technique, it becomes clear that opacity weighting indeed very clearly emphasizes object borders. Because of this, it becomes easier to interpret the geometric shape of the object. Because the opacity weighting also suppresses the opacity of the interior of an object, it becomes easier to distinguish other objects that may be inside of, or behind that object. This is especially useful in for instance analyzing a human body, as it is a solid mass that includes other objects (e.g., organs, vessels, etc.). But also in hollow objects such as a bag or piggy bank, the opacity weighting technique generates a more transparent rendering, enabling us to distinguish objects inside of it (see Figure \ref{fig:compareopacity} and \ref{fig:compareall}). 
 
-Even though compositing and opacity weighing raycaster have the same basis the resulting renderings are quite different.
-The opacity weighing raycaster shows the borders of objects, which makes the structure and volume of an object visible.
-The compositing raycasters shows a more solid representation of the object.
-In figure~\ref{subsec:compareopacity} the same piggy bank as the previous comparison is used.
-
-
-
-- Opacity shows volumes, tries to find the edges
-- Both show multiple layers
-- Opacity clearly shows the structure of the piggy bank (REF), shows the borders of the material
-- also the flowers are pretty visible, specially in comparison with composition
-
-
+%Even though compositing and opacity weighing raycaster have the same basis the resulting renderings are quite different.
+%The opacity weighing raycaster shows the borders of objects, which makes the structure and volume of an object visible.
+%The compositing raycasters shows a more solid representation of the object.
+%In Figure \ref{fig:compareopacity} the same piggy bank as the previous comparison is used.
+%
+%
+%
+%- Opacity shows volumes, tries to find the edges
+%- Both show multiple layers
+%- Opacity clearly shows the structure of the piggy bank (REF), shows the borders of the material
+%- also the flowers are pretty visible, specially in comparison with composition
 
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering,margin=0.5cm}
-    \begin{subfigure}[t]{0.49\textwidth}
+    \begin{subfigure}[t]{0.4\textwidth}
         \includegraphics[width=\textwidth]{img/pig-compositing.png}
         \caption{ }
     \end{subfigure}
-    \begin{subfigure}[t]{0.49\textwidth}
+    \begin{subfigure}[t]{0.4\textwidth}
         \includegraphics[width=\textwidth]{img/pig-opacity.png}
         \caption{ }
     \end{subfigure}
-    \caption{(a) Rendering with compositing raycaster, (b) rendering with opacity weighting raycaster}
+    \caption{Rendering a piggy bank using a (a) compositing raycaster, and (b) opacity weighting raycaster}
     \label{fig:compareopacity}
 \end{figure}
-
 
 \begin{figure}[h!]
     \centering
@@ -96,6 +94,6 @@ In figure~\ref{subsec:compareopacity} the same piggy bank as the previous compar
         \includegraphics[width=\textwidth]{img/bag-Opacity.png}
         \caption{ }
     \end{subfigure}
-    \caption{(a) Rendering with MIP raycaster, (a) Rendering with compositing raycaster, (b) rendering with opacity weighting raycaster}
-    \label{fig:compareallraycasters}
+    \caption{Rendering a backpack scan with a (a) MIP raycaster, (b) compositing raycaster, and (c) opacity weighting raycaster}
+    \label{fig:compareall}
 \end{figure}
