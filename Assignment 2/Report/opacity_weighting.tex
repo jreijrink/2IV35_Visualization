@@ -14,7 +14,49 @@
 %% approach.
 
 \todo { user controls!! user existing controls.. extra radio box }
-    
+
 \section{Opacity Weighting}\label{sec:opacity}
 
 \subsection{Comparison with Compositing}\label{subsec:opacity_compare}
+
+- Opacity shows volumes, tries to find the edges
+- Both show multiple layers
+- Opacity clearly shows the structure of the piggy bank (REF), shows the borders of the material
+- also the flowers are pretty visible, specially in comparison with composition
+
+
+
+\begin{figure}[h!]
+    \centering
+    \captionsetup{justification=centering,margin=0.5cm}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/pig-compositing.png}
+        \caption{ }
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/pig-opacity.png}
+        \caption{ }
+    \end{subfigure}
+    \caption{(a) Rendering with compositing raycaster, (b) rendering with opacity weighting raycaster}
+    \label{fig:compareraycasters}
+\end{figure}
+
+
+\begin{figure}[h!]
+    \centering
+    \captionsetup{justification=centering,margin=0.5cm}
+    \begin{subfigure}[t]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/bag-MIP.png}
+        \caption{ }
+    \end{subfigure}
+    \begin{subfigure}[t]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/bag-Composition.png}
+        \caption{ }
+    \end{subfigure}
+    \begin{subfigure}[t]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{img/bag-Opacity.png}
+        \caption{ }
+    \end{subfigure}
+    \caption{(a) Rendering with MIP raycaster, (a) Rendering with compositing raycaster, (b) rendering with opacity weighting raycaster}
+    \label{fig:compareraycasters}
+\end{figure}
