@@ -51,6 +51,13 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
 
 \subsection{Comparison with Compositing}\label{subsec:opacity_compare}
 
+Even though compositing and opacity weighing raycaster have the same basis the resulting renderings are quite different.
+The opacity weighing raycaster shows the borders of objects, which makes the structure and volume of an object visible.
+The compositing raycasters shows a more solid representation of the object.
+In figure~\ref{subsec:compareopacity} the same piggy bank as the previous comparison is used.
+
+
+
 - Opacity shows volumes, tries to find the edges
 - Both show multiple layers
 - Opacity clearly shows the structure of the piggy bank (REF), shows the borders of the material
@@ -70,7 +77,7 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
         \caption{ }
     \end{subfigure}
     \caption{(a) Rendering with compositing raycaster, (b) rendering with opacity weighting raycaster}
-    \label{fig:compareraycasters}
+    \label{fig:compareopacity}
 \end{figure}
 
 
@@ -90,5 +97,5 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
         \caption{ }
     \end{subfigure}
     \caption{(a) Rendering with MIP raycaster, (a) Rendering with compositing raycaster, (b) rendering with opacity weighting raycaster}
-    \label{fig:compareraycasters}
+    \label{fig:compareallraycasters}
 \end{figure}
