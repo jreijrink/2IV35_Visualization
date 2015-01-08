@@ -15,4 +15,6 @@ Once the coordinates are determined, they are passed on to a function called \te
     \label{fig:raycaster0}
 \end{figure}
 
+\newpage
+
 With this application as a starting point, we devote the upcoming sections to explaining the additional features that were implemented. We start in section \ref{sec:mip} with the implementation of a Maximum Intensity Projection method. We furthermore adjust the interpolation technique for the points on a casted ray from a nearest neighbor interpolation to a tri-linear one. Because the implementation of a MIP greatly reduces the performance of the application, we present several performance enhancement methods in section \ref{subsec:perf_enh}. In section \ref{sec:compositing} we present an alternative implementation for the MIP, namely compositing. Section \ref{sec:opacity} finally describes how we implemented gradient-based opacity weighting. For this implementation we used the compositing renderer as the basis and extended it with gradient-based opacity weighting. In subsection \ref{subsec:opacity_compare} the results are compared with the original compositing renderer.

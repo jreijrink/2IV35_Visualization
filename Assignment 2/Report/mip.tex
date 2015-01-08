@@ -73,6 +73,8 @@ One of these two approaches has to be chosen, the first one seems to be the bett
 
 When comparing the two different interpolation methods in \ref{fig:trilinear1}, we can see that the NN method produces a more crisp image, while the tri-linear interpolation shows a more blurry image. Though it can be argued which one of these methods may be preferred, the trilinear interpolation should in theory deliver a smoother image that may be more compelling to the eye, but shows less contrast on the other hand.
 
+\newpage
+
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering,margin=0.5cm}
@@ -94,10 +96,12 @@ With the implementation of the Maximum Intensity Projection, the performance of 
 The first one is the obvious solution of decreasing the depth resolution of the rendering. In order to this, we introduce a variable \texttt{step}, and use this variable to specify the length of the steps that are taken along each ray that is casted from the view window. When \texttt{step} is increased, the for-loop is simply walks quicker over each ray, and reaches the end of the bounding box in less calculations. In order to easily adjust the \texttt{step} value, even during runtime, an extra slider was added to the application's control panel. By moving the slider to the right, the step size increases, reducing the resolution and hence the response time of the application.
 Making it possible to adjust the \texttt{step} value during runtime, also enables the user to more quickly interact with the transfer function. For every adjustment to the transfer function, the data set is rendered again, the rest of the application freezes until the rendering is completed. When this rendering takes few seconds, interaction with the transfer function becomes very cumbersome. By temporarily maximizing the \texttt{step} value (i.e. minimizing the resolution), the interaction with the transfer function can be improved drastically. Once the desired transfer function is defined, the resolution can be set back to its initial value.
 
-Next to this, as much as possible operations within the core of the triple for-loop nest, were taken to the outer levels of this for-loop nesting. In this way, these operations are executed once, saved to some variable, and can then be used in the inner for-loops without having to recompute them. 
+Next to this, as much as possible operations within the core of the triple for-loop nest, were taken to the outer levels of this for-loop nesting. In this way, these operations are executed once, saved to some variable, and can then be used in the inner for-loops without having to recompute them.
 These variable values were the same at each inner-iteration and did not need to be recomputed each time.
 
 For the MIP method, another obvious trick was added in order to improve performance. When walking across a certain ray, we now check every time a new highest value is found, whether this value is the maximum value. If it is, this means we can stop traversing that ray, because no higher value can ever be found (the maximum is already the highest possible value!). Obviously, this performance enhancement method does not work for the compositing rendering technique.
+
+\newpage
 
 Another performance enhancing method that came to mind was to check in advance which part of each ray will fall inside the bounding box. In this way, the length of the most inner for-loop (walking across the ray) could be decreased. However, in order to determine whether a certain point on the ray will fall inside or outside of the bounding box, we will need to determine the coordinates of that point first. Once these coordinates are found, the function \texttt{getTriVoxel()} already checks whether this point falls within the bounding box, and hence no significant improvements could be made concerning this.
 
