@@ -287,7 +287,7 @@ public class RaycastRenderer extends Renderer implements TFChangeListener {
 
                         int voxel = getTriVoxel(pixelCoord);
                         double gradient = getVoxelGradient(pixelCoord);
-                        double normal = gradient / max;
+                        double normal = gradient / Math.sqrt(3 * Math.pow(max,2));
                         
                         TFColor voxelColor = new TFColor(0, 0, 0, 0);
                         if(voxel != 0)
