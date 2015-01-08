@@ -13,6 +13,8 @@
 %% - Explain how you designed a color map, a transfer function, or even your whole visualization
 %% approach.
 
+\todo { user controls!! user existing controls.. extra radio box }
+    
 \section{Opacity Weighting}\label{sec:opacity}
 The last rendering improvement that is implemented (on top of the compositing rendering technique) is the opacity weighting technique, as presented by Levoy \cite{levoy1988display}. He states that the main idea behind this technique is to "suppress the opacity of tissue interiors while enhancing the opacity of their bounding surfaces". He proposes this in order to achieve "the superimposition of multiple semitransparent surfaces". In other words, we want to improve the distinction between different types of materials (i.e., objects, tissues, etc.) in a volume rendering by only (or mainly) rendering their boundaries, and not their inside.
 
@@ -49,4 +51,4 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
 \end{figure}
 
 
-\paragraph{Comparison with Compositing} 
+\subsection{Comparison with Compositing}\label{subsec:opacity_compare}
