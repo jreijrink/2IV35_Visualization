@@ -14,7 +14,7 @@
 %% approach.
 
 \todo { user controls!! user existing controls.. extra radio box }
-    
+
 \section{Opacity Weighting}\label{sec:opacity}
 The last rendering improvement that is implemented (on top of the compositing rendering technique) is the opacity weighting technique, as presented by Levoy \cite{levoy1988display}. He states that the main idea behind this technique is to "suppress the opacity of tissue interiors while enhancing the opacity of their bounding surfaces". He proposes this in order to achieve "the superimposition of multiple semitransparent surfaces". In other words, we want to improve the distinction between different types of materials (i.e., objects, tissues, etc.) in a volume rendering by only (or mainly) rendering their boundaries, and not their inside.
 
@@ -27,8 +27,6 @@ In order to compute the eventual opacity of a render point, Lovey multiplies the
 \alpha_{v_{n+1}} \left(\frac{f(x_i)-f_{v_n}}{f_{v_{n+1}}-f_{v_n}}\right) + \alpha_{v_n} \left(\frac{f_{v_{n+1}}-f(x_i)}{f_{v_{n+1}}-f_{v_n}}\right)
 \]
  Here, $f(x_i)$ is the value of the render point, $f_{v_n}$ the value of the first control point in the transfer function to the left of the render point its value, and $f_{v_{n+1}}$ the value of the first control point to the right of the render point its value. $\alpha_{v_n}$ and $\alpha_{v_{n+1}}$ are the alpha values defined in the transfer function by the user for the two control points.
- 
- 
 
 
 
