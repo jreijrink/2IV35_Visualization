@@ -4,39 +4,99 @@
 % and some specific questions.
 % Make sure that at least some of the tasks and questions require interaction and/or multiple linked views in order to be performed or solved.
 
+In this section we formulate a set of tasks that should be performed on the data using the final application. However, before defining these tasks, we present a framework for formulating data analysis tasks. We then actually define possible tasks for the restaurant \& consumer data set using this framework, and select a few of these tasks.
+
+\subsection{Framework for Defining Tasks}\label{subsec:task_frame}
+In order to formulate a nice and clear visualization task, we provide a framework for doing so as presented in \cite{schulz2013design}. Here we distinguish between five different dimensions for each task, namely the \textit{goal} (why is the task pursued?), \textit{means} (how is the task carried out?), \textit{characteristics} (what does the task seek?), \textit{target} (on which part of the data is the task carried out?) and \textit{cardinality} (on how many instances is the task carried out?). We shortly explain these five aspects in some more detail.
+
+For the goal of the task we distinguish between three different types of analyses. We can have an exploratory analysis (or undirected search) that aims at deriving an hypothesis from an unknown data set, a confirmatory analysis (directed search) that aims to verify a found or assumed hypothesis, and finally a presentation that simple exhibits analysis results.
+
+For describing how the task is being carried out we distinguish between three main ways of doing so. These are navigation, (re-)organization and relation. Navigation subsumes all means that change the extent or the granularity of the shown data, but that do not reorganize the data itself. (Re-)organization includes all means that actually adjust the data to be shown by either reducing or enriching it, and relation encompasses all means that put data in context.
+
+Characteristics of the data can be subdivided in low-level data characteristics and high-level ones. Examples of low-level characteristics are data values of a particular data object or the data objects corresponding to a particular data value. Examples of high-level characteristics include more complex data patterns such as trends, outliers, clusters, frequency, distribution, correlation, etc.
+
+The target of the visualization task describes on which part of the data the task is being carried out. This often boils down to a certain (sub)set of the different data attributes.
+
+The cardinality finally specifies which part of the data instances we consider when carrying out the task. For instance just a single one, a certain subset, or just all of them.
+
 \subsection{Possible Tasks}
+Given the restaurant \& consumer data set as presented in Section \ref{sec:data}, numerous analysis tasks can be formulated. We start by observing that we can distinguish between three main sets of tasks. 
 
-restaurant data only (including their rating)
-\\- correlations between restaurant features:
-\\- -
-\\- correlations between rating and restaurant features:
-\\- - Are restaurants that are part of a franchise better rated?
-\\- - are restaurants that provide internet better rated?
-\\- - Are restaurants of a certain cuisine better rated?
+The first set of tasks involves the analysis of the restaurant data, including their ratings. Here we can identify tasks that for instance focus on finding correlations between restaurant features and their ratings. An example of a specific question that could be posed here is "Do restaurants receive better ratings when they are part of a franchise, provide internet, serve a certain cuisine, or are located in a certain geographical area?". 
 
+The second set of tasks involves the consumer data. In this set we find tasks such as identifying correlations between the consumers their preferred type of cuisine and their personal information. An example of a specific question within this set of tasks could be "Do consumers that are obese, are a heavy drinker, or have a small budget, have a common type of cuisine they prefer?". 
 
-customer data only
-\\- Is there a correlation between obese consumers and a certain type of cuisine?
-\\- Is there a correlation between consumers' color and preferred cuisine?
-\\- Is there a correlation between consumers' budget and ...
+The third and last set of tasks we can identify are those that link the restaurant data to the consumer data, using the ratings of the consumers for the restaurants. What is especially interesting here is finding contradictions (which are probably outliers). These could be found by posing questions such as "Are there non-smoking restaurants that are visited (and even rated good) by consumers that smoke?" and "Are there consumers that travel a long distance to visit a certain restaurant?". But also the discovery of certain correlations between restaurant features and consumer characteristics might bring forth interesting observations. Specific questions that could be posed include "Do consumers of a certain religion more strongly prefer restaurants with a formal dress code?" and "Do younger people prefer restaurants that are part of a franchise?".
 
 
-link restaurant and consumers data
-\\- contradictions: 
-\\- - are there non-smoking restaurants that are visited (and even rated good) by smoking consumers 
-\\- - are there non-alcoholic restaurants that are visited (and even rated good) by heavy drinking consumers
-\\- - are there consumers with a high budget that visit restaurants with low prices? And do they like them?
-\\
+%%restaurant data only (including their rating)
+%%\\- correlations between rating and restaurant features:
+%%\\- - Are restaurants that are part of a franchise better rated?
+%%\\- - are restaurants that provide internet better rated?
+%%\\- - Are restaurants of a certain cuisine better rated?
+%%\\- - Are restaurants in a certain area better rated? (map!)
+%%
+%%
+%%customer data only
+%%\\- Discover correlations between different consumer attributes
+%%\\- - Is there a correlation between consumers' weight and their preferred type of cuisine?
+%%\\- - Is there a correlation between consumers' drinking level and preferred type of cuisine?
+%%\\- - Is there a correlation between consumers' budget and ...
+%%\\- - Is there a correlation between consumers' religion and preferred type of cuisine?
+%%
+%%
+%%link restaurant and consumers data
+%%\\- explore and discover correlations between consumers and restaurants they like/dislike (small multiples?)
+%%\\- -
+%%\\- contradictions:
+%%\\- - are there non-smoking restaurants that are visited (and even rated good) by smoking consumers
+%%\\- - are there non-alcoholic restaurants that are visited (and even rated good) by heavy drinking consumers
+%%\\- - are there consumers with a high budget that visit restaurants with low prices? And do they like them? and the other way around?
+%\\- - are there consumers that travel a long distance to visit a certain restaurant? And how do they travel and confirm they rate the restaurant well (map?)
 
 
 \subsection{Chosen Tasks}
+From the three main sets of data analysis task that can be defined for the restaurant \& consumer data set, we focus on the the first and third one in this project. 
 
+\subsubsection{Task 1}\label{subsubsec:task1}
+Within the first set of tasks (regarding the restaurant data and their ratings), we concentrate on exploring correlations between restaurants their features and their received ratings. In order to specify valuable visualization techniques, we formulate the following set of specific analysis questions:
 
+Do restaurants receive a better rating when they
+\begin{itemize}
+\setlength{\itemsep}{0cm}%
+\setlength{\parskip}{0cm}%
+\item are part of a franchise?
+\item provide internet?
+\item serve a certain cuisine?
+\item are located in a certain area?
+\end{itemize}
 
-\subsubsection{Task 1}\label{sec:task1}
+\todo{formal task descriptions}
 
-%include some specific questions
+In order to formally describe this first task, we use the framework presented in Section \ref{subsec:task_frame}. For the goal of this task we observe that we want to derive hypotheses from the unknown data, indicating an exploratory goal. We furthermore recognize that we want to do this by means of relation-seeking, in order to characterize correlations between the set of restaurant features/attributes (denoted by $S_{rest}$), and their rating (denoted by $S_{rate}$). When performing this task, we consider all instances of the data set, giving rise to the following formal definition for the task:
 
-\subsubsection{Task 2}\label{sec:task2}
+(exploratory, relation-seeking, correlations, $S_{rest} \cup S_{rate}$, all)
 
-%include some specific questions 
+\subsubsection{Task 2}\label{subsubsec:task2}
+For the set of tasks that link the restaurant data to the consumer data, we concentrate on exploring correlations between restaurant features and consumer characteristics (i.e., what kind of people rate what kind of restaurants well or bad?). 
+
+\begin{itemize}
+\setlength{\itemsep}{0cm}%
+\setlength{\parskip}{0cm}%
+\item "Do younger people prefer restaurants that are part of a franchise?"
+\item "Do consumers of a certain religion prefer restaurants with a formal dress code?"
+\end{itemize}
+
+Furthermore we are especially interested in possible outliers. Specific questions that we could formulate regarding this are:
+\begin{itemize}
+\setlength{\itemsep}{0cm}%
+\setlength{\parskip}{0cm}%
+\item "Are there non-smoking restaurants that are visited (and even well-rated) by consumers that smoke?"
+\item "Are there non-alcoholic restaurants that are visited (and even well-rated) by heavy drinking consumers?"
+\item "Are there consumers with a high budget that visit restaurants with low prices? Do they like them? And what about the other way around?
+\item "Are there consumers that travel a long distance to visit a certain restaurant?"
+\end{itemize}
+
+In order to formally describe these tasks, we make a similar observation as with the first task. The main difference is that we are also actively looking for outliers here, and that we include the set of consumer attributes (denoted by $S_{cons}$) in order to perform the described tasks. This therefore yields the following formal description of the second task:
+
+(exploratory, relation-seeking, correlations$|$outliers, $S_{rest} \cup S_{cons} \cup S_{rate}$, all)
