@@ -1,4 +1,96 @@
 \appendix
-\section{Appendix: Work breakdown}\label{app:appA}
+
+\section{Appendix: Dataset}\label{app:appData}
+The data attributes are described using the following format:\\
+\textbf{attribute name} [type]: description\\% [range]\\
+\\
+\textbf{\large 1. chefmozaccepts.csv}\\
+\\
+\textbf{placeID} [number]: unique identifier of the restaurant\\
+\textbf{Rpayment} [text]: describes the payment methods the restaurants accepts\\
+\\
+\textbf{\large 2. chefmozcuisine.csv}\\
+\\
+\textbf{placeID} [number]: unique identifier of the restaurant\\
+\textbf{Rcuisine} [text]: describes the present cuisines of the restaurants\\
+\\
+\textbf{\large 3. chefmozhours4.csv}\\
+\\
+\textbf{placeID} [number]: unique identifier of the restaurant\\
+\textbf{hours} [text]: opening hours of the restaurant in 00:00-23:59 format\\
+\textbf{days} [text]: days in the week the restaurant is open, days are separated with semicolon\\
+\\
+\textbf{\large 4. chefmozparking.csv}\\
+\\
+\textbf{placeID} [number]: unique identifier of the restaurant\\
+\textbf{parking} [text]: describes the parking possibilities of the restaurant\\
+\\
+\textbf{\large 5. geoplaces2.csv}\\
+\\
+\textbf{placeID} [number]: unique identifier of the restaurant\\
+\textbf{latitude} [number]: latitude of the restaurant location\\
+\textbf{longitude} [number]: longitude of the restaurant location\\
+\textbf{the\_geom\_meter} [number]: geospatial name of the restaurant\\
+\textbf{name} [text]: restaurant name\\
+\textbf{address} [text]: restaurant address\\
+\textbf{city} [text]: city where the restaurant is located\\
+\textbf{state} [text]: state where the restaurant is located\\
+\textbf{country} [text]: country where the restaurant is located\\
+\textbf{fax} [text]: fax number of the restaurant\\
+\textbf{zip} [text]: zip code where the restaurant is located\\
+\textbf{alcohol} [text]: describes if the restaurant serves alcohol\\
+\textbf{smoking\_area} [text]: described if the restaurant permits smoking inside\\
+\textbf{dress\_code} [text]: restaurants type of dress code\\
+\textbf{accessibility} [text]: accessibility for disabled\\
+\textbf{price} [text]: overall pricing of the restaurant, this can be low, medium or high\\
+\textbf{url} [text]: restaurant website url\\
+\textbf{Rambience} [text]: ambience of the restaurant, this can be familiar or quiet\\
+\textbf{franchise} [boolean]: is the restaurant part of a franchise\\
+\textbf{area} [text]: area of the restaurant\\
+\textbf{other\_services} [text]: other services provided by the restaurant\\
+\\
+\textbf{\large 6. usercuisine.csv}\\
+\\
+\textbf{userID} [number]: unique identifier of the consumer\\
+\textbf{Rcuisine} [text]: the preferred cuisine of the consumer, a user can have multiple\\
+\\
+\textbf{\large 7. userpayment.csv}\\
+\\
+\textbf{userID} [number]: unique identifier of the consumer\\
+\textbf{Upayment} [text]: payment methods the consumer has used in restaurants\\
+\\
 
 
+
+\textbf{\large 8. userprofile.csv}\\
+\\
+\textbf{userID} [number]: unique identifier of the consumer\\
+\textbf{latitude} [number]: latitude of the consumer's home\\
+\textbf{longitude} [number]: longitude of the consumer's home\\
+\textbf{the\_geom\_meter} [number]: geospatial name of the consumer's home location\\
+\textbf{smoker} [boolean]: is the consumer a smoker\\
+\textbf{drink\_level} [text]: drinking level of the consumer\\
+\textbf{dress\_preference} [text]: dress code preference of the consumer\\
+\textbf{ambience} [text]: ambience preference of the consumer\\
+\textbf{transport} [text]: transportation preference of the consumer\\
+\textbf{marital\_status} [text]: marital status of the consumer\\
+\textbf{hijos} [text]: children status of the consumer\\
+\textbf{birth\_year} [text]: birth year of the consumer\\
+\textbf{interest} [text]: interests of the consumer\\
+\textbf{personality} [text]: personality of the consumer\\
+\textbf{religion} [text]: religion of the consumer\\
+\textbf{activity} [text]: work status, this can be student, professional, unemployed or working-class\\
+\textbf{color} [text]: favorite color of the consumer\\
+\textbf{weight} [number]: weight of the consumer\\
+\textbf{budget} [text]: food budget of the consumer, this can be low, medium or high\\
+\textbf{height} [number]: height of the consumer\\
+\\
+\textbf{\large 9. rating\_final.csv}\\
+\\
+\textbf{userID} [number]: unique identifier of the consumer\\
+\textbf{placeID} [number]: unique identifier of the restaurant\\
+\textbf{rating} [number]: the overall rating of the consumer at a specific restaurant\\
+\textbf{food\_rating} [number]: the food rating of the consumer at a specific restaurant\\
+\textbf{service\_rating} [number]: the service rating of the consumer at a specific restaurant
+
+\section{Appendix: Work breakdown}\label{app:appB}
