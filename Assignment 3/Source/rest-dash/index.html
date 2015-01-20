@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Restaurant dashboard</title>
+		<link rel="icon" href="img/icon.ico">
+		<meta charset="utf-8">
+		<meta name="viewport" content="widtd=device-widtd, initial-scale=1.0">
+		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://d3js.org/queue.v1.min.js"></script>
+		<script src="http://d3js.org/topojson.v1.min.js"></script>
+		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/map.css"/>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	</head>
+	<body>
+		<div id="container">
+			<div id="scatterPlot">
+				<select id="restaurantSelection" onchange="selectRestaurant(value)"></select>
+			</div>
+			<div id="map">
+			</div>
+			<div id="information">
+				<h1 id="informationHeader" >Restaurant information</h1>
+				<h1 id="restaurantHeader"></h1>
+				<table id="infotable" >
+				  <tr>
+				  <tr>
+					<td id="tableHeaderColumn" ><strong>Address</strong></td>
+					<td id="address"></td>
+				  </tr>
+				  <tr>
+					<td><strong>City</strong></td>
+					<td id="city"></td>
+				  </tr>
+				  <tr>
+					<td><strong>State</strong></td>
+					<td id="state"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Country</strong></td>
+					<td id="country"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Zip</strong></td>
+					<td id="zip"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Alcohol</strong></td>
+					<td id="alcohol"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Smoking area</strong></td>
+					<td id="smoking_area"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Dress code</strong></td>
+					<td id="dress_code"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Accessibility</strong></td>
+					<td id="accessibility"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Price</strong></td>
+					<td id="price"></td>
+				  </tr>
+				  <tr>
+					<td><strong>Website</strong></td>
+					<td id="url"></td>
+				  </tr>
+				</table>
+			</div>
+			<div id="ratingChart">
+			</div>
+			<script type="text/javascript" src="js/map.js"></script>
+		</div>
+	</body>
+</html>

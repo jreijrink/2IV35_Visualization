@@ -1,0 +1,132 @@
+body {
+  font: 10px sans-serif;
+}
+
+#container
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+	margin: 20px;
+}
+
+#scatterPlot
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+	height: 450px; 
+	width: 800px; 
+	background-color: #F8F8F8 ;
+}
+
+#map 
+{
+    position: absolute;
+    left: 800px;
+    top: 0px;
+	height: 450px; 
+	width: 800px; 
+	background-color: #FFFFFF ;
+}
+
+#information
+{
+    position: absolute;
+    left: 0px;
+    top: 450px;
+	height: 450px; 
+	width: 800px; 
+	background-color: #FFFFFF ;
+}
+
+#ratingChart
+{
+    position: absolute;
+    left: 800px;
+    top: 450px;
+	height: 450px; 
+	width: 800px; 
+	background-color: #F8F8F8;
+}
+
+#restaurantHeader 
+{
+    position: absolute;
+    left: 50px;
+    top: 70px;
+	font-size: 17px;
+}
+
+#informationHeader
+{
+    position: absolute;
+    left: 50px;
+    top: 20px;
+	font-size: 22px;
+}
+
+#infotable 
+{
+    position: absolute;
+    left: 50px;
+    top: 120px;
+}
+
+#tableHeaderColumn 
+{
+	width: 130px;
+}
+
+table, th, td {
+    text-align: left;
+	font-size: 15px;
+}
+		
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
