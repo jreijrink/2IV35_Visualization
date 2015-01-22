@@ -10,8 +10,11 @@
 		<script src="http://d3js.org/queue.v1.min.js"></script>
 		<script src="http://d3js.org/topojson.v1.min.js"></script>
 		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+		<script type="text/javascript" src="js/underscore-min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/map.css"/>
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/Leaflet.fullscreen.min.js'></script>
+		<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css' rel='stylesheet' />
 	</head>
 	<body>
 		<div id="container">
@@ -21,55 +24,123 @@
 			<div id="map">
 			</div>
 			<div id="information">
-				<h1 id="informationHeader" >Restaurant information</h1>
-				<h1 id="restaurantHeader"></h1>
-				<table id="infotable" >
-				  <tr>
-				  <tr>
-					<td id="tableHeaderColumn" ><strong>Address</strong></td>
-					<td id="address"></td>
-				  </tr>
-				  <tr>
-					<td><strong>City</strong></td>
-					<td id="city"></td>
-				  </tr>
-				  <tr>
-					<td><strong>State</strong></td>
-					<td id="state"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Country</strong></td>
-					<td id="country"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Zip</strong></td>
-					<td id="zip"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Alcohol</strong></td>
-					<td id="alcohol"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Smoking area</strong></td>
-					<td id="smoking_area"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Dress code</strong></td>
-					<td id="dress_code"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Accessibility</strong></td>
-					<td id="accessibility"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Price</strong></td>
-					<td id="price"></td>
-				  </tr>
-				  <tr>
-					<td><strong>Website</strong></td>
-					<td id="url"></td>
-				  </tr>
-				</table>
+				<div id="restaurant-information">
+					<h1 id="informationHeader" >Restaurant information</h1>
+					<h1 id="restaurantHeader"></h1>
+					<table id="infotable" >
+					  <tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Address</strong></td>
+						<td id="address"></td>
+					  </tr>
+					  <tr>
+						<td><strong>City</strong></td>
+						<td id="city"></td>
+					  </tr>
+					  <tr>
+						<td><strong>State</strong></td>
+						<td id="state"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Country</strong></td>
+						<td id="country"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Zip</strong></td>
+						<td id="zip"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Alcohol</strong></td>
+						<td id="alcohol"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Smoking area</strong></td>
+						<td id="smoking_area"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Dress code</strong></td>
+						<td id="dress_code"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Accessibility</strong></td>
+						<td id="accessibility"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Price</strong></td>
+						<td id="price"></td>
+					  </tr>
+					  <tr>
+						<td><strong>Website</strong></td>
+						<td id="url"></td>
+					  </tr>
+					</table>
+				</div>
+				<div id="user-information">
+					<h1 id="informationHeader" >Consumer information</h1>
+					<table id="infotable" >
+					  <tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Smoker</strong></td>
+						<td id="smoker"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>drink_level</strong></td>
+						<td id="drink_level"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Dress preference</strong></td>
+						<td id="dress_preference"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Ambience</strong></td>
+						<td id="ambience"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Transport</strong></td>
+						<td id="transport"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Marital status</strong></td>
+						<td id="marital_status"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Birth year</strong></td>
+						<td id="birth_year"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Interest</strong></td>
+						<td id="interest"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Personality</strong></td>
+						<td id="personality"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Religion</strong></td>
+						<td id="religion"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Activity</strong></td>
+						<td id="activity"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Color</strong></td>
+						<td id="color"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Weight</strong></td>
+						<td id="weight"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Budget</strong></td>
+						<td id="budget"></td>
+					  </tr>
+					  <tr>
+						<td id="tableHeaderColumn" ><strong>Height</strong></td>
+						<td id="height"></td>
+					  </tr>
+					</table>
+				</div>
 			</div>
 			<div id="ratingChart">
 			</div>

@@ -30,6 +30,10 @@ body {
 	background-color: #FFFFFF ;
 }
 
+div.leaflet-fullscreen-on{
+    left: 	0px !important;
+} 
+
 #information
 {
     position: absolute;
@@ -76,6 +80,14 @@ body {
 #tableHeaderColumn 
 {
 	width: 130px;
+}
+
+#restaurant-information {
+	visibility: hidden;
+}
+
+#user-information {
+	visibility: hidden;
 }
 
 table, th, td {
