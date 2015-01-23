@@ -2,16 +2,21 @@
 //http://bl.ocks.org/Caged/6476579
 
 var map = L.map('map', { fullscreenControl: true });
+
 var defaultIcon;
 var selectedIcon;
 var userIcon;
 var userSelectedIcon;
+
 var clickedMarker;
 var clickedUserMarker;
+
 var restaurantMarkers = [];
 var userMarkers = [];
+
 var restaurantRatings = [];
 var consumerRatings = [];
+
 var ratingLinesRes = [];
 var ratingLinesUser = [];
 var selectedLines = [];
@@ -67,122 +72,18 @@ queue()
 function dataLoaded(error, geoData, users, userRatings)
 {	
 	map.on('click', onMapClick);
-		
-	_.each(geoData, function(value) {
-		value.resLat = value.latitude
-		value.resLon = value.longitude	
-	});
-	_.each(users, function(value) {
-		value.conLat = value.latitude
-		value.conLon = value.longitude	
-	});
-
-	var mergedUserRating = _.map(userRatings, function(item) {
-		return _.extend(item, _.findWhere(users, { userID: item.userID }));
-	});
 	
-	var mergedData = _.map(mergedUserRating, function(item) {
-		return _.extend(item, _.findWhere(geoData, { placeID: item.placeID }));
-	});
-		
+	mergeData(geoData, users, userRatings);
+	
+	initIcons();
+	
 	initRatings(geoData, users);
 	fillRatings(userRatings);
+	
 	createBarChart();
 	nothingSelected();
 	
-	var restaurantSelection = document.getElementById("restaurantSelection");		
-	var bounds = [];
-	var DefaultIcon = L.Icon.Default.extend({
-		options: {
-				iconUrl: 'img/marker-icon-blue.png' 
-		}
-	 });
-	var SelectedIcon = L.Icon.Default.extend({
-		options: {
-				iconUrl: 'img/marker-icon-orange.png' 
-		}
-	 });
-	var UserIcon = L.Icon.Default.extend({
-		options: {
-				iconUrl: 'img/marker-user-green.png' 
-		}
-	 });
-	var UserSelectedIcon = L.Icon.Default.extend({
-		options: {
-				iconUrl: 'img/marker-user-orange.png' 
-		}
-	 });
-	 selectedIcon = new SelectedIcon();
-	 defaultIcon = new DefaultIcon();
-	 userIcon = new UserIcon();
-	 userSelectedIcon = new UserSelectedIcon();
-	 
-	geoData.forEach(function(entry) {
-		var lat = entry.latitude;
-		var lon = entry.longitude;
-		var name = entry.name;
-		var placeID = entry.placeID;
-		var coordinate = L.latLng(lat, lon);
-		
-		var marker = L.marker(coordinate, {
-            data: entry,
-			icon: defaultIcon
-        });
-		marker.addTo(map).on('click', onMapRestaurantClick);
-		bounds[bounds.length] = coordinate;
-		restaurantMarkers[placeID] = marker;
-		ratingLinesRes[placeID] = [];
-		
-		var option = document.createElement("option");
-		option.value = placeID;
-		option.data = entry;
-		option.text = name;
-		restaurantSelection.add(option);
-	});	
-		
-	users.forEach(function(entry) {
-		var lat = entry.latitude;
-		var lon = entry.longitude;
-		var userID = entry.userID;
-		var coordinate = L.latLng(lat, lon);
-		
-		var marker = L.marker(coordinate, {
-            data: entry,
-			icon: userIcon
-        });
-		marker.addTo(map).on('click', onMapUserClick);
-			
-		bounds[bounds.length] = coordinate;
-		userMarkers[userID] = marker;
-		ratingLinesUser[userID] = [];
-	});	
-	
-	userRatings.forEach(function(entry) {
-		var userID = entry.userID;
-		var placeID = entry.placeID;
-		
-		var userMarker = getUserMarker(userID);
-		var restaurantMarker = getRestaurantMarker(placeID);
-	
-		if(userMarker && restaurantMarker)
-		{
-		   var line = [];
-			line.push(userMarker.getLatLng());
-			line.push(restaurantMarker.getLatLng());
-
-			var polyline_options = {
-				color: '#000',
-				weight: 0
-			};
-
-			var polyline = L.polyline(line, polyline_options).addTo(map);
-			
-			ratingLinesRes[placeID][ratingLinesRes[placeID].length] = polyline;
-			ratingLinesUser[userID][ratingLinesUser[userID].length] = polyline;
-		}
-	});	
-	
-	map.fitBounds(bounds);
+	createMapData(geoData, users, userRatings);
 }
 
 function onMapClick(e)
@@ -238,12 +139,129 @@ function onMapUserClick(e)
 	e.target.setIcon(userSelectedIcon);
 	clickedUserMarker = e.target;
 	
-	var entry = e.target.options.data;
+	var entry = e.target.fs.data;
 	
 	var lines = getUserRatingLines(entry.userID);
 	updateLineColor(lines);
 	
 	showUserInfo(entry);
+}
+
+function initIcons()
+{
+	var DefaultIcon = L.Icon.Default.extend({
+		options: {
+				iconUrl: 'img/marker-icon-blue.png' 
+		}
+	 });
+	var SelectedIcon = L.Icon.Default.extend({
+		options: {
+				iconUrl: 'img/marker-icon-orange.png' 
+		}
+	 });
+	var UserIcon = L.Icon.Default.extend({
+		options: {
+				iconUrl: 'img/marker-user-green.png' 
+		}
+	 });
+	var UserSelectedIcon = L.Icon.Default.extend({
+		options: {
+				iconUrl: 'img/marker-user-orange.png' 
+		}
+	 });
+	 
+	 selectedIcon = new SelectedIcon();
+	 defaultIcon = new DefaultIcon();
+	 userIcon = new UserIcon();
+	 userSelectedIcon = new UserSelectedIcon();
+}
+
+function mergeData(geoData, users, userRatings)
+{
+	_.each(geoData, function(value) {
+		value.resLat = value.latitude
+		value.resLon = value.longitude	
+	});
+	_.each(users, function(value) {
+		value.conLat = value.latitude
+		value.conLon = value.longitude	
+	});
+
+	var mergedUserRating = _.map(userRatings, function(item) {
+		return _.extend(item, _.findWhere(users, { userID: item.userID }));
+	});
+	
+	var mergedData = _.map(mergedUserRating, function(item) {
+		return _.extend(item, _.findWhere(geoData, { placeID: item.placeID }));
+	});
+	
+	return mergedData;		
+}
+
+function createMapData(geoData, users, userRatings)
+{
+	var bounds = [];
+	
+	geoData.forEach(function(entry) {
+		var lat = entry.latitude;
+		var lon = entry.longitude;
+		var name = entry.name;
+		var placeID = entry.placeID;
+		var coordinate = L.latLng(lat, lon);
+		
+		var marker = L.marker(coordinate, {
+            data: entry,
+			icon: defaultIcon
+        });
+		marker.addTo(map).on('click', onMapRestaurantClick);
+		bounds[bounds.length] = coordinate;
+		restaurantMarkers[placeID] = marker;
+		ratingLinesRes[placeID] = [];
+	});	
+		
+	users.forEach(function(entry) {
+		var lat = entry.latitude;
+		var lon = entry.longitude;
+		var userID = entry.userID;
+		var coordinate = L.latLng(lat, lon);
+		
+		var marker = L.marker(coordinate, {
+            data: entry,
+			icon: userIcon
+        });
+		marker.addTo(map).on('click', onMapUserClick);
+			
+		bounds[bounds.length] = coordinate;
+		userMarkers[userID] = marker;
+		ratingLinesUser[userID] = [];
+	});	
+	
+	userRatings.forEach(function(entry) {
+		var userID = entry.userID;
+		var placeID = entry.placeID;
+		
+		var userMarker = getUserMarker(userID);
+		var restaurantMarker = getRestaurantMarker(placeID);
+	
+		if(userMarker && restaurantMarker)
+		{
+		   var line = [];
+			line.push(userMarker.getLatLng());
+			line.push(restaurantMarker.getLatLng());
+
+			var polyline_options = {
+				color: '#000',
+				weight: 0
+			};
+
+			var polyline = L.polyline(line, polyline_options).addTo(map);
+			
+			ratingLinesRes[placeID][ratingLinesRes[placeID].length] = polyline;
+			ratingLinesUser[userID][ratingLinesUser[userID].length] = polyline;
+		}
+	});	
+	
+	map.fitBounds(bounds);
 }
 
 function selectRestaurant(placeID)
