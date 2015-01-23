@@ -35,6 +35,7 @@ var chosenConsAttr;
 
 var selectRestData = [ 
 	{ "text" : "price", "type" : "text" },
+	{ "text" : "restCuisine", "type" : "text" },
 	{ "text" : "placeID", "type" : "text" },
 	{ "text" : "alcohol", "type" : "text" },
 	{ "text" : "accessibility", "type" : "text" },
@@ -45,6 +46,7 @@ var selectRestData = [
 ]
 var selectConsData = [ 
 	{ "text" : "budget", "type" : "text" },
+	{ "text" : "consCuisine", "type" : "text" },
 	{ "text" : "birth_year", "type" : "number" },
 	{ "text" : "smoker", "type" : "text" },
 	{ "text" : "weight", "type" : "number" },

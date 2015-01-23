@@ -69,14 +69,17 @@ queue()
    .defer(d3.csv, "data/geoplaces2.csv")
    .defer(d3.csv, "data/userprofile.csv")
    .defer(d3.csv, "data/rating_final.csv")
+   .defer(d3.csv, "data/chefmozcuisine.csv")
+   .defer(d3.csv, "data/chefmozparking.csv")
+   .defer(d3.csv, "data/usercuisine.csv")
    .await(dataLoaded);
       
-function dataLoaded(error, geoData, users, userRatings)
+function dataLoaded(error, geoData, users, userRatings, restCuisine, parking, userCuisine)
 {	
 	map.on('click', onMapClick);
 	
-	mergedList2 = mergeData(geoData, users, userRatings);
-	
+	mergedList2 = mergeData(geoData, users, userRatings, restCuisine, parking, userCuisine);
+	console.log(mergedList2);
 	//-------------------------------------------------------
 	// PCP
 	//-------------------------------------------------------
@@ -92,10 +95,7 @@ function dataLoaded(error, geoData, users, userRatings)
 	}));
 	pcpX.domain(dimensions = [chosenRestAttr, "rating", chosenConsAttr]);
 	
-	console.log(dimensions);
-
 	render();
-	
 	
 	//-------------------------------------------------------
 	// MAP
@@ -201,7 +201,7 @@ function initIcons()
 	 userSelectedIcon = new UserSelectedIcon();
 }
 
-function mergeData(geoData, users, userRatings)
+function mergeData(geoData, users, userRatings, restCuisine, parking, userCuisine)
 {
 	_.each(geoData, function(value) {
 		value.resLat = value.latitude
@@ -211,13 +211,31 @@ function mergeData(geoData, users, userRatings)
 		value.conLat = value.latitude
 		value.conLon = value.longitude	
 	});
-
+	_.each(restCuisine, function(value) {
+		value.restCuisine = value.Rcuisine	
+	});
+	_.each(userCuisine, function(value) {
+		value.consCuisine = value.Rcuisine	
+	});
+	// userRatings + userprofiles
 	var mergedUserRating = _.map(userRatings, function(item) {
 		return _.extend(item, _.findWhere(users, { userID: item.userID }));
 	});
-	
-	var mergedData = _.map(mergedUserRating, function(item) {
+	// ... + geoplaces2
+	var mergedGeo = _.map(mergedUserRating, function(item) {
 		return _.extend(item, _.findWhere(geoData, { placeID: item.placeID }));
+	});
+	// ... + restCuisine
+	var mergedRestCuisine = _.map(mergedGeo, function(item) {
+		return _.extend(item, _.findWhere(restCuisine, { placeID: item.placeID }));
+	});
+	// ... + parking
+	var mergedParking = _.map(mergedRestCuisine, function(item) {
+		return _.extend(item, _.findWhere(parking, { placeID: item.placeID }));
+	});
+	// ... + userCuisine
+	var mergedData = _.map(mergedParking, function(item) {
+		return _.extend(item, _.findWhere(userCuisine, { userID: item.userID }));
 	});
 	
 	return mergedData;		
