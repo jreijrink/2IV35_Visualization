@@ -139,7 +139,7 @@ function onMapUserClick(e)
 	e.target.setIcon(userSelectedIcon);
 	clickedUserMarker = e.target;
 	
-	var entry = e.target.fs.data;
+	var entry = e.target.options.data;
 	
 	var lines = getUserRatingLines(entry.userID);
 	updateLineColor(lines);
@@ -324,10 +324,7 @@ function getUserRatingLines(userID)
 }
 
 function selectedMapMarker(restaurant)
-{    
-    var element = document.getElementById('restaurantSelection');
-    element.value = restaurant.placeID;
-
+{   
 	showRestaurantInfo(restaurant);
 }
 
