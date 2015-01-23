@@ -7,12 +7,16 @@ var defaultIcon;
 var selectedIcon;
 var userIcon;
 var userSelectedIcon;
+var emptyIcon;
 
 var clickedMarker;
 var clickedUserMarker;
 
 var restaurantMarkers = [];
 var userMarkers = [];
+
+var visibleRestaurantMarkers = [];
+var visibleUserMarkers = [];
 
 var restaurantRatings = [];
 var consumerRatings = [];
@@ -73,8 +77,6 @@ queue()
       
 function dataLoaded(error, geoData, users, userRatings)
 {	
-	map.on('click', onMapClick);
-	
 	mergedList2 = mergeData(geoData, users, userRatings);
 	
 	//-------------------------------------------------------
@@ -100,6 +102,8 @@ function dataLoaded(error, geoData, users, userRatings)
 	//-------------------------------------------------------
 	// MAP
 	//-------------------------------------------------------
+	map.on('click', onMapClick);
+	
 	initIcons();
 	
 	initRatings(geoData, users);
@@ -113,16 +117,6 @@ function dataLoaded(error, geoData, users, userRatings)
 
 function onMapClick(e)
 {
-		if(clickedMarker)
-		{
-			clickedMarker.setIcon(defaultIcon);
-		}
-
-		if(clickedUserMarker)
-		{
-			clickedUserMarker.setIcon(userIcon);
-		}
-		
 		nothingSelected();
 }
 
@@ -148,26 +142,13 @@ function onMapRestaurantClick(e)
 }
 
 function onMapUserClick(e)
-{	
-	if(clickedMarker)
-	{
-		clickedMarker.setIcon(defaultIcon);
-	}
-	if(clickedUserMarker)
-	{
-		clickedUserMarker.setIcon(userIcon);
-	}
-	
+{		
 	nothingSelected();
-	
 	
 	e.target.setIcon(userSelectedIcon);
 	clickedUserMarker = e.target;
 	
 	var entry = e.target.options.data;
-	
-	var lines = getUserRatingLines(entry.userID);
-	updateLineColor(lines);
 	
 	showUserInfo(entry);
 }
@@ -194,11 +175,17 @@ function initIcons()
 				iconUrl: 'img/marker-user-orange.png' 
 		}
 	 });
+	 var EmptyIcon = L.Icon.Default.extend({
+		options: {
+				iconUrl: 'img/marker-empty.png' 
+		}
+	 });
 	 
 	 selectedIcon = new SelectedIcon();
 	 defaultIcon = new DefaultIcon();
 	 userIcon = new UserIcon();
 	 userSelectedIcon = new UserSelectedIcon();
+	 emptyIcon = new EmptyIcon();
 }
 
 function mergeData(geoData, users, userRatings)
@@ -234,6 +221,8 @@ function createMapData(geoData, users, userRatings)
 		var placeID = entry.placeID;
 		var coordinate = L.latLng(lat, lon);
 		
+		visibleRestaurantMarkers[placeID] = true;
+		
 		var marker = L.marker(coordinate, {
             data: entry,
 			icon: defaultIcon
@@ -247,8 +236,10 @@ function createMapData(geoData, users, userRatings)
 	users.forEach(function(entry) {
 		var lat = entry.latitude;
 		var lon = entry.longitude;
-		var userID = entry.userID;
+		var userID = getUserID(entry.userID);
 		var coordinate = L.latLng(lat, lon);
+		
+		visibleUserMarkers[userID] = true;
 		
 		var marker = L.marker(coordinate, {
             data: entry,
@@ -262,7 +253,7 @@ function createMapData(geoData, users, userRatings)
 	});	
 	
 	userRatings.forEach(function(entry) {
-		var userID = entry.userID;
+		var userID = getUserID(entry.userID);
 		var placeID = entry.placeID;
 		
 		var userMarker = getUserMarker(userID);
@@ -276,17 +267,65 @@ function createMapData(geoData, users, userRatings)
 
 			var polyline_options = {
 				color: '#000',
+				data: entry,
 				weight: 0
 			};
 
 			var polyline = L.polyline(line, polyline_options).addTo(map);
 			
-			ratingLinesRes[placeID][ratingLinesRes[placeID].length] = polyline;
-			ratingLinesUser[userID][ratingLinesUser[userID].length] = polyline;
+			ratingLinesRes[placeID][userID] = polyline;
+			ratingLinesUser[userID][placeID] = polyline;
 		}
 	});	
 	
 	map.fitBounds(bounds);
+}
+
+function updateMap(ratingSelection)
+{
+	nothingSelected();
+		
+	visibleRestaurantMarkers = [];
+	visibleUserMarkers = [];
+
+	ratingSelection.forEach(function(entry) {
+		var userID = getUserID(entry.userID);
+		var placeID = entry.placeID;		
+		visibleUserMarkers[userID] = true;
+		visibleRestaurantMarkers[placeID] = true;
+	});
+	
+	userMarkers.forEach(function(entry) {
+		var userID = getUserID(entry.options.data.userID);
+		
+		if(!visibleUserMarkers[userID])
+		{
+			map.removeLayer(entry);
+		}
+		else
+		{
+			if(!entry.map)
+			{
+				entry.addTo(map);
+			}
+		}
+	});
+	
+	restaurantMarkers.forEach(function(entry) {
+		var placeID = entry.options.data.placeID;
+		
+		if(!visibleRestaurantMarkers[placeID])
+		{
+			map.removeLayer(entry);
+		}
+		else
+		{
+			if(!entry.map)
+			{
+				entry.addTo(map);
+			}
+		}
+	});
 }
 
 function selectRestaurant(placeID)
@@ -303,9 +342,6 @@ function selectRestaurant(placeID)
 		map.panTo(marker._latlng);		
 		clickedMarker = marker;
 		showRestaurantInfo(marker.options.data);
-		
-		var lines = getRestaurantRatingLines(placeID);
-		updateLineColor(lines);
 	}
 }
 
@@ -318,14 +354,19 @@ function updateLineColor(newLines)
 			});
 	});
 	
+	var ratings = [];
 	newLines.forEach(function(line) {
 		line.setStyle({
 			color: 'red',
 			weight: 2
 			});
+			
+		ratings[ratings.length] = line.options.data;
 	});
 	
 	selectedLines = newLines;
+	
+	highlightRatings(ratings);
 }
 
 function getRestaurantMarker(placeID)
@@ -340,12 +381,32 @@ function getUserMarker(userID)
 
 function getRestaurantRatingLines(placeID)
 {
-	return ratingLinesRes[placeID];
+	var lines = ratingLinesRes[placeID];
+	var result = [];
+	
+	for(var i = 0; i < lines.length; i++)
+	{
+		if(lines[i] && visibleUserMarkers[i] == true)
+		{
+			result[result.length] = lines[i];
+		}
+	}
+	return result;
 }
 
 function getUserRatingLines(userID)
 {
-	return ratingLinesUser[userID];
+	var lines = ratingLinesUser[userID];
+	var result = [];
+	
+	for(var i = 0; i < lines.length; i++)
+	{
+		if(lines[i] && visibleRestaurantMarkers[i] == true)
+		{
+			result[result.length] = lines[i];
+		}
+	}
+	return result;
 }
 
 function selectedMapMarker(restaurant)
@@ -391,6 +452,15 @@ function fillRatings(ratings)
 
 function nothingSelected()
 {
+	if(clickedMarker)
+	{
+		clickedMarker.setIcon(defaultIcon);
+	}
+	if(clickedUserMarker)
+	{
+		clickedUserMarker.setIcon(userIcon);
+	}
+	
 	hideInfo();
 }
 
@@ -437,13 +507,15 @@ function showUserInfo(user)
 	updateElementText("budget", user.budget);
 	updateElementText("height", user.height);
 	
-	
 	document.getElementById("user-information").style.visibility = "visible";
 	document.getElementById("restaurant-information").style.visibility = "hidden";
 	
 	var userID = getUserID(user.userID);
 	var rating = consumerRatings[userID];
 	showRating(rating);	
+		
+	var lines = getUserRatingLines(userID);
+	updateLineColor(lines);
 }
 
 function hideInfo()
