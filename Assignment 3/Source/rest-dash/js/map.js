@@ -75,12 +75,19 @@ queue()
    .defer(d3.csv, "data/geoplaces2.csv")
    .defer(d3.csv, "data/userprofile.csv")
    .defer(d3.csv, "data/rating_final.csv")
+   .defer(d3.csv, "data/chefmozcuisine.csv")
+   .defer(d3.csv, "data/chefmozparking.csv")
+   .defer(d3.csv, "data/usercuisine.csv")
    .await(dataLoaded);
       
-function dataLoaded(error, geoData, users, userRatings)
+
+function dataLoaded(error, geoData, users, userRatings, restCuisine, parking, userCuisine)
 {	
-	mergedList2 = mergeData(geoData, users, userRatings);
+
+
 	
+	mergedList2 = mergeData(geoData, users, userRatings, restCuisine, parking, userCuisine);
+	console.log(mergedList2);
 	//-------------------------------------------------------
 	// PCP
 	//-------------------------------------------------------
@@ -97,9 +104,7 @@ function dataLoaded(error, geoData, users, userRatings)
 	pcpX.domain(dimensions = [chosenRestAttr, "rating", chosenConsAttr]);
 	
 	//console.log(dimensions);
-
 	render();
-	
 	
 	//-------------------------------------------------------
 	// MAP
@@ -190,7 +195,8 @@ function initIcons()
 	 emptyIcon = new EmptyIcon();
 }
 
-function mergeData(geoData, users, userRatings)
+
+function mergeData(geoData, users, userRatings, restCuisine, parking, userCuisine)
 {
 	_.each(geoData, function(value) {
 		value.resLat = value.latitude
@@ -200,13 +206,33 @@ function mergeData(geoData, users, userRatings)
 		value.conLat = value.latitude
 		value.conLon = value.longitude	
 	});
-
+	_.each(restCuisine, function(value) {
+		value.restCuisine = value.Rcuisine	
+	});
+	_.each(userCuisine, function(value) {
+		value.consCuisine = value.Rcuisine	
+	});
+	// userRatings + userprofiles
 	var mergedUserRating = _.map(userRatings, function(item) {
 		return _.extend(item, _.findWhere(users, { userID: item.userID }));
 	});
 	
-	var mergedData = _.map(mergedUserRating, function(item) {
+
+	// ... + geoplaces2
+	var mergedGeo = _.map(mergedUserRating, function(item) {
 		return _.extend(item, _.findWhere(geoData, { placeID: item.placeID }));
+	});
+	// ... + restCuisine
+	var mergedRestCuisine = _.map(mergedGeo, function(item) {
+		return _.extend(item, _.findWhere(restCuisine, { placeID: item.placeID }));
+	});
+	// ... + parking
+	var mergedParking = _.map(mergedRestCuisine, function(item) {
+		return _.extend(item, _.findWhere(parking, { placeID: item.placeID }));
+	});
+	// ... + userCuisine
+	var mergedData = _.map(mergedParking, function(item) {
+		return _.extend(item, _.findWhere(userCuisine, { userID: item.userID }));
 	});
 	
 	return mergedData;		
@@ -238,6 +264,7 @@ function createMapData(geoData, users, userRatings)
 	users.forEach(function(entry) {
 		var lat = entry.latitude;
 		var lon = entry.longitude;
+
 		var userID = getUserID(entry.userID);
 		var coordinate = L.latLng(lat, lon);
 		
@@ -255,6 +282,7 @@ function createMapData(geoData, users, userRatings)
 	});	
 	
 	userRatings.forEach(function(entry) {
+
 		var userID = getUserID(entry.userID);
 		var placeID = entry.placeID;
 		
@@ -275,6 +303,7 @@ function createMapData(geoData, users, userRatings)
 
 			var polyline = L.polyline(line, polyline_options).addTo(map);
 			
+
 			ratingLinesRes[placeID][userID] = polyline;
 			ratingLinesUser[userID][placeID] = polyline;
 		}
