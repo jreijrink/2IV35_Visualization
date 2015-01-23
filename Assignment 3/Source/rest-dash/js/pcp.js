@@ -264,8 +264,8 @@ function highlightRatings(ratingSelection)
 	{
 		foreground.attr("class", function(d)
 		{
-			console.log(ratingSelection);
-			console.log(d);
+			//console.log(ratingSelection);
+			//console.log(d);
 			if(ratingSelection.indexOf(d) != -1)
 				return "selectedLine"; 
 			else 
