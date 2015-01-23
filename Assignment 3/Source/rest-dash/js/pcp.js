@@ -1,5 +1,5 @@
-var margin = {top: 50, right: 30, bottom: 25, left: 30},
-    width = 800 - margin.left - margin.right,
+var margin = {top: 50, right: 30, bottom: 25, left: 0},
+    width = 900 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
 var pcpX = d3.scale.ordinal().rangePoints([0, width], 1),
@@ -34,26 +34,27 @@ var chosenRestAttr;
 var chosenConsAttr;
 
 var selectRestData = [ 
+	{ "text" : "price", "type" : "text" },
 	{ "text" : "placeID", "type" : "text" },
 	{ "text" : "alcohol", "type" : "text" },
+	{ "text" : "accessibility", "type" : "text" },
+	{ "text" : "Rambience", "type" : "text" },
 	{ "text" : "smoking_area", "type" : "text" },
 	{ "text" : "dress_code", "type" : "text" },
-	{ "text" : "price", "type" : "text" },
 	{ "text" : "franchise", "type" : "text" },
 ]
 var selectConsData = [ 
+	{ "text" : "budget", "type" : "text" },
 	{ "text" : "birth_year", "type" : "number" },
 	{ "text" : "smoker", "type" : "text" },
 	{ "text" : "weight", "type" : "number" },
+	{ "text" : "height", "type" : "number" },
 	{ "text" : "drink_level", "type" : "text" },
-	{ "text" : "budget", "type" : "text" },
+	{ "text" : "ambience", "type" : "text" },
+	{ "text" : "transport", "type" : "text" },
 ]
-		   
-queue()
-   .defer(d3.csv, "data/userprofile.csv")
-   .defer(d3.csv, "data/rating_final.csv")
-   .defer(d3.csv, "data/geoplaces2.csv")
-   .await(dataLoaded);
+
+var body = d3.select('body');
 
 function mouseOverArc(d) {
 	d3.select(this).attr("stroke","black")
@@ -69,31 +70,12 @@ function mouseOutArc(){
 	d3.select(this).attr("stroke","")
 	return tooltip.style("opacity", 0);
 }
-   
-function dataLoaded(error, dataUser, dataRating, dataRest) {
-	userData = dataUser;
-	restData = dataRest;
-	ratingData = dataRating;
-	
-	var mergedList = _.map(ratingData, function(item) {
-		return _.extend(item, _.findWhere(userData, { userID: item.userID }));
-	});
-	var mergedList2 = _.map(mergedList, function(item) {
-		return _.extend(item, _.findWhere(restData, { placeID: item.placeID }));
-	});
-	//console.log(mergedList2);
-	
-	// SELECTION BOXES
-	var body = d3.select('body');
-	
-	chosenRestAttr = selectRestData[0].text;
-	chosenConsAttr = selectConsData[1].text;
-	//console.log(chosenRestAttr);
- 
+
+function createSelectionBoxes() {
 	// Select Restaurant Variable
-	  var span = body.append('span')
+	var span = body.append('span')
 		.text('Select restaurant variable: ')
-	  var yInput = body.append('select')
+	var yInput = body.append('select')
 		  .attr('id','xSelect')
 		  .on('change',restChange)
 		.selectAll('option')
@@ -102,12 +84,12 @@ function dataLoaded(error, dataUser, dataRating, dataRest) {
 		.append('option')
 		  .attr('value', function (d) { return d.text })
 		  .text(function (d) { return d.text ;})
-	  //body.append('br')
+	//body.append('br')
 	 
-	  // Select Consumer Variable
-	  var span = body.append('span')
+	// Select Consumer Variable
+	var span = body.append('span')
 		  .text('Select consumer variable: ')
-	  var yInput = body.append('select')
+	var yInput = body.append('select')
 		  .attr('id','ySelect')
 		  .on('change',consChange)
 		.selectAll('option')
@@ -116,132 +98,95 @@ function dataLoaded(error, dataUser, dataRating, dataRest) {
 		.append('option')
 		  .attr('value', function (d) { return d.text })
 		  .text(function (d) { return d.text ;})
-	  body.append('br')
-		
-		//mergedList2.clean();
-	  // Extract the list of dimensions and create a scale for each.
-	  
-	pcpX.domain(dimensions = d3.keys(mergedList2[0]).filter(function(d) {
-		return getCorrectScales(d, mergedList2);
-	}));
-
-	render();
-	  
-	// update Restaurant axis
-	function restChange() {
-		var value = this.value;
-		chosenRestAttr = value;
-		updateAxis(selectRestData.isNumeric(value), value);
-	}
-		
-	// update Consumer axis
-	function consChange() {
-		var value = this.value;
-		chosenConsAttr = value;
-		updateAxis(selectConsData.isNumeric(value), value);
-	}
+	body.append('br')
+}
 	
-	function updateAxis(numericAttribute, value)
+// update Restaurant axis
+function restChange() {
+	var value = this.value;
+	chosenRestAttr = value;
+	updateAxis(selectRestData.isNumeric(value), value);
+}
+	
+// update Consumer axis
+function consChange() {
+	var value = this.value;
+	chosenConsAttr = value;
+	updateAxis(selectConsData.isNumeric(value), value);
+}
+
+function updateAxis(numericAttribute, value)
+{
+	foreground.remove();
+	background.remove();
+	pcpSVG.selectAll(".dimension").remove();
+	
+	pcpX.domain(dimensions = [chosenRestAttr, "rating", chosenConsAttr]);		
+	if(numericAttribute)
 	{
-		foreground.remove();
-		background.remove();
-		pcpSVG.selectAll(".dimension").remove();
-		
-		pcpX.domain(dimensions = [chosenRestAttr, "rating", chosenConsAttr]);		
-		if(numericAttribute)
-		{
-			pcpY[value] = d3.scale.linear()
-				.domain(d3.extent(mergedList2, function(p) { return +p[value]; }))
-				.range([height, 0]);
-		}
-		else
-		{
-			pcpY[value] = d3.scale.ordinal()
-				.domain(mergedList2.map(function(p) { return p[value]; }))
-				.rangePoints([height, 0]);
-		}
-				
-		render();		
+		pcpY[value] = d3.scale.linear()
+			.domain(d3.extent(mergedList2, function(p) { return +p[value]; }))
+			.range([height, 0]);
 	}
-	
-	function render() {
-		// Add grey background lines for context.
-		  background = pcpSVG.append("g")
-			  .attr("class", "background")
-			.selectAll("path")
-			  .data(mergedList2)
-			.enter().append("path")
-			  .attr("d", path);
-
-		  // Add blue foreground lines for focus.
-		  foreground = pcpSVG.append("g")
-			  .attr("class", "foreground")
-			.selectAll("path")
-			  .data(mergedList2)
-			.enter().append("path")
-			.attr("class","myLine")
-			  .attr("d", path);
-			 
-		  // Add a group element for each dimension.
-		  //console.log(dimensions);
-		  var g = pcpSVG.selectAll(".dimension")
-			  .data(dimensions)
-			.enter().append("g")
-			  .attr("class", "dimension")
-			  .attr("transform", function(d) { return "translate(" + pcpX(d) + ")"; })
-			  .call(d3.behavior.drag()
-				.origin(function(d) { return {pcpX: pcpX(d)}; })
-				.on("dragstart", function(d) {
-				  dragging[d] = pcpX(d);
-				  background.attr("visibility", "hidden");
-				})
-				.on("drag", function(d) {
-				  dragging[d] = Math.min(width, Math.max(0, d3.event.pcpX));
-				  foreground.attr("d", path);
-				  dimensions.sort(function(a, b) { return position(a) - position(b); });
-				  pcpX.domain(dimensions);
-				  g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
-				})
-				.on("dragend", function(d) {
-				  delete dragging[d];
-				  transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
-				  transition(foreground).attr("d", path);
-				  background
-					  .attr("d", path)
-					.transition()
-					  .delay(500)
-					  .duration(0)
-					  .attr("visibility", null);
-				}));
-			 
-		// Add an axis and title.
-		g.append("g")
-		  .attr("class", "axis")
-		  .each(function(d) { d3.select(this).call(axis.scale(pcpY[d])); })
-		.append("text")
-		  .style("text-anchor", "middle")
-		  .attr("y", -9)
-		  .text(function(d) { return d; });
-
-		// Add and store a brush for each axis.
-		g.append("g")
-		  .attr("class", "brush")
-		  .each(function(d) {
-			d3.select(this).call(pcpY[d].brush = d3.svg.brush().y(pcpY[d]).on("brushstart", brushstart).on("brush", brush));
-		  })
-		.selectAll("rect")
-		  .attr("x", -8)
-		  .attr("width", 16);
+	else
+	{
+		pcpY[value] = d3.scale.ordinal()
+			.domain(mergedList2.map(function(p) { return p[value]; }))
+			.rangePoints([height, 0]);
 	}
-};
+			
+	render();		
+}
+
+function render() {
+	// Add grey background lines for context.
+	  background = pcpSVG.append("g")
+		  .attr("class", "background")
+		.selectAll("path")
+		  .data(mergedList2)
+		.enter().append("path")
+		  .attr("d", path);
+
+	  // Add blue foreground lines for focus.
+	  foreground = pcpSVG.append("g")
+		  .attr("class", "foreground")
+		.selectAll("path")
+		  .data(mergedList2)
+		.enter().append("path")
+		.attr("class","myLine")
+		  .attr("d", path);
+		 
+	  // Add a group element for each dimension.
+	  //console.log(dimensions);
+	  var g = pcpSVG.selectAll(".dimension")
+		  .data(dimensions)
+		.enter().append("g")
+		  .attr("class", "dimension")
+		  .attr("transform", function(d) { return "translate(" + pcpX(d) + ")"; });
+		 
+	// Add an axis and title.
+	g.append("g")
+	  .attr("class", "axis")
+	  .each(function(d) { d3.select(this).call(axis.scale(pcpY[d])); })
+	.append("text")
+	  .style("text-anchor", "middle")
+	  .attr("y", -9)
+	  .text(function(d) { return d; });
+
+	// Add and store a brush for each axis.
+	g.append("g")
+	  .attr("class", "brush")
+	  .each(function(d) {
+		d3.select(this).call(pcpY[d].brush = d3.svg.brush().y(pcpY[d]).on("brushstart", brushstart).on("brush", brush));
+	  })
+	.selectAll("rect")
+	  .attr("x", -8)
+	  .attr("width", 16);
+}
 
 function position(d) {
   var v = dragging[d];
   return v == null ? pcpX(d) : v;
-}
-
-function transition(g) {
-  return g.transition().duration(500);
 }
 
 // Returns the path for a given data point.
@@ -284,7 +229,7 @@ function brush() {
       }
     }) ? null : "none";
   });
-  console.log(selection);
+  //console.log(selection);
   updateMap(selection);
 }
 

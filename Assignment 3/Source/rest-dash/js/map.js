@@ -56,6 +56,8 @@ var tip = d3.tip()
     return tooltip;
 });
 
+var mergedList2;
+
 svg.call(tip);
   
 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
@@ -73,8 +75,31 @@ function dataLoaded(error, geoData, users, userRatings)
 {	
 	map.on('click', onMapClick);
 	
-	mergeData(geoData, users, userRatings);
+	mergedList2 = mergeData(geoData, users, userRatings);
 	
+	//-------------------------------------------------------
+	// PCP
+	//-------------------------------------------------------
+	//selection boxes
+	chosenRestAttr = selectRestData[0].text;
+	chosenConsAttr = selectConsData[0].text;
+	createSelectionBoxes();	
+	
+	// Extract the list of dimensions and create a scale for each.
+	
+	pcpX.domain(dimensions = d3.keys(mergedList2[0]).filter(function(d) {
+		return getCorrectScales(d, mergedList2);
+	}));
+	pcpX.domain(dimensions = [chosenRestAttr, "rating", chosenConsAttr]);
+	
+	console.log(dimensions);
+
+	render();
+	
+	
+	//-------------------------------------------------------
+	// MAP
+	//-------------------------------------------------------
 	initIcons();
 	
 	initRatings(geoData, users);
