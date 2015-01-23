@@ -208,28 +208,23 @@ function brush() {
   var selection = [];
 	  
   foreground.style("display", function(d) {
-    return actives.every(function(p, i) {
+    result = actives.every(function(p, i) {
       // Categorical
       if ( !selectRestData.isNumeric(p) && !selectConsData.isNumeric(p)) {
-	  
-		if(extents[i][0] <= pcpY[p](d[p]) && pcpY[p](d[p]) <= extents[i][1])
-		{
-			selection[selection.length] = d;
-		}
-		
         return extents[i][0] <= pcpY[p](d[p]) && pcpY[p](d[p]) <= extents[i][1];
       }
       // Numeric
       else {
-	  
-		if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
-		{
-			selection[selection.length] = d;		
-		}
-		
         return extents[i][0] <= d[p] && d[p] <= extents[i][1];
       }
-    }) ? null : "none";
+    });
+	
+	if(result == true)
+	{
+		selection[selection.length] = d;		
+	}
+	
+	return result ? null : "none";
   });
   //console.log(selection);
   updateMap(selection);
@@ -263,22 +258,20 @@ function getCorrectScales(d, mergedList2) {
 
 }
 
-function updateMap(ratingSelection)
+function highlightRatings(ratingSelection)
 {
-	//TODO MAP
-	highlightRating(ratingSelection);
-	
-}
-
-function highlightRating(ratingSelection)
-{
-	foreground.attr("class", function(d) {
-		if(ratingSelection.indexOf(d) != -1)
-			return "selectedLine"; 
-		else 
-			return "myLine"; 
-	});
-	
+	if(foreground)
+	{
+		foreground.attr("class", function(d)
+		{
+			console.log(ratingSelection);
+			console.log(d);
+			if(ratingSelection.indexOf(d) != -1)
+				return "selectedLine"; 
+			else 
+				return "myLine"; 
+		});
+	}
 }
 
 //remove last (invalid) entry from input data
