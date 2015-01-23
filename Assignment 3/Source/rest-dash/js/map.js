@@ -17,7 +17,9 @@ var userMarkers = [];
 
 var visibleRestaurantMarkers = [];
 var visibleUserMarkers = [];
-
+var visibleResUserMarkers = [];
+var visibleUserResMarkers = [];
+	
 var restaurantRatings = [];
 var consumerRatings = [];
 
@@ -94,7 +96,7 @@ function dataLoaded(error, geoData, users, userRatings)
 	}));
 	pcpX.domain(dimensions = [chosenRestAttr, "rating", chosenConsAttr]);
 	
-	console.log(dimensions);
+	//console.log(dimensions);
 
 	render();
 	
@@ -288,11 +290,27 @@ function updateMap(ratingSelection)
 	visibleRestaurantMarkers = [];
 	visibleUserMarkers = [];
 
+	visibleUserResMarkers = [];	
+	for(var i = 0; i < userMarkers.length; i++)
+	{
+		visibleUserResMarkers[i] = [];
+	}
+	
+	visibleResUserMarkers = [];
+	for(var i = 0; i < restaurantMarkers.length; i++)
+	{
+		visibleResUserMarkers[i] = [];
+	}
+	
 	ratingSelection.forEach(function(entry) {
 		var userID = getUserID(entry.userID);
 		var placeID = entry.placeID;		
+		
 		visibleUserMarkers[userID] = true;
 		visibleRestaurantMarkers[placeID] = true;
+		
+		visibleUserResMarkers[userID][placeID] = true;
+		visibleResUserMarkers[placeID][userID] = true;
 	});
 	
 	userMarkers.forEach(function(entry) {
@@ -383,10 +401,12 @@ function getRestaurantRatingLines(placeID)
 {
 	var lines = ratingLinesRes[placeID];
 	var result = [];
+		
+	//console.log(visibleResUserMarkers);
 	
 	for(var i = 0; i < lines.length; i++)
 	{
-		if(lines[i] && visibleUserMarkers[i] == true)
+		if(lines[i] && visibleResUserMarkers[placeID][i] == true)
 		{
 			result[result.length] = lines[i];
 		}
@@ -401,7 +421,7 @@ function getUserRatingLines(userID)
 	
 	for(var i = 0; i < lines.length; i++)
 	{
-		if(lines[i] && visibleRestaurantMarkers[i] == true)
+		if(lines[i] && visibleUserResMarkers[userID][i] == true)
 		{
 			result[result.length] = lines[i];
 		}
@@ -587,7 +607,7 @@ function createBarChart()
 	svg.append("text")
 	  .attr("class", "count")
       .text("Ratings: 0")
-	  .attr("x", width - 125)
+	  .attr("x", width - 255)
 	  .attr("y", -5)
 	  .attr("font-size", 18);
 	
