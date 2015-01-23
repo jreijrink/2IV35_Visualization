@@ -34,26 +34,29 @@ var chosenRestAttr;
 var chosenConsAttr;
 
 var selectRestData = [ 
-	{ "text" : "price", "type" : "text" },
-	{ "text" : "restCuisine", "type" : "text" },
-	{ "text" : "placeID", "type" : "text" },
-	{ "text" : "alcohol", "type" : "text" },
-	{ "text" : "accessibility", "type" : "text" },
-	{ "text" : "Rambience", "type" : "text" },
-	{ "text" : "smoking_area", "type" : "text" },
-	{ "text" : "dress_code", "type" : "text" },
-	{ "text" : "franchise", "type" : "text" },
+	{ "text" : "price", "type" : "text", "title" : "Price" },
+	{ "text" : "restCuisine", "type" : "text", "title" : "Type of Cuisine" },
+	{ "text" : "placeID", "type" : "text", "title" : "Restaurant ID" },
+	{ "text" : "alcohol", "type" : "text", "title" : "Alcohol Served" },
+	{ "text" : "accessibility", "type" : "text", "title" : "Accessibility" },
+	{ "text" : "Rambience", "type" : "text", "title" : "Ambience" },
+	{ "text" : "smoking_area", "type" : "text", "title" : "Smoking Area" },
+	{ "text" : "dress_code", "type" : "text", "title" : "Dress Code" },
+	{ "text" : "franchise", "type" : "text", "title" : "Part of Franchise" },
+	{ "text" : "parking_lot", "type" : "text", "title" : "Parking Options" },
+	{ "text" : "other_services", "type" : "text", "title" : "Other Services" },
 ]
 var selectConsData = [ 
-	{ "text" : "budget", "type" : "text" },
-	{ "text" : "consCuisine", "type" : "text" },
-	{ "text" : "birth_year", "type" : "number" },
-	{ "text" : "smoker", "type" : "text" },
-	{ "text" : "weight", "type" : "number" },
-	{ "text" : "height", "type" : "number" },
-	{ "text" : "drink_level", "type" : "text" },
-	{ "text" : "ambience", "type" : "text" },
-	{ "text" : "transport", "type" : "text" },
+	{ "text" : "budget", "type" : "text", "title" : "Budget" },
+	{ "text" : "consCuisine", "type" : "text", "title" : "Preferred Cuisine" },
+	{ "text" : "birth_year", "type" : "number", "title" : "Year of Birth" },
+	{ "text" : "smoker", "type" : "text", "title" : "Smoker" },
+	{ "text" : "weight", "type" : "number", "title" : "Weight" },
+	{ "text" : "height", "type" : "number", "title" : "Height" },
+	{ "text" : "drink_level", "type" : "text", "title" : "Drinking Level" },
+	{ "text" : "ambience", "type" : "text", "title" : "Preferred Ambience" },
+	{ "text" : "transport", "type" : "text", "title" : "Type of Transportation" },
+	{ "text" : "religion", "type" : "text", "title" : "Religion" },
 ]
 
 var body = d3.select('body');
@@ -77,7 +80,8 @@ function createSelectionBoxes() {
 	// Select Restaurant Variable
 	var span = body.append('span')
 		.text('Select restaurant variable: ')
-	var yInput = body.append('select')
+		//.append('br')
+	var yInput = span.append('select')
 		  .attr('id','xSelect')
 		  .on('change',restChange)
 		.selectAll('option')
@@ -85,13 +89,14 @@ function createSelectionBoxes() {
 		  .enter()
 		.append('option')
 		  .attr('value', function (d) { return d.text })
-		  .text(function (d) { return d.text ;})
+		  .text(function (d) { return d.title ;})
 	//body.append('br')
 	 
 	// Select Consumer Variable
 	var span = body.append('span')
 		  .text('Select consumer variable: ')
-	var yInput = body.append('select')
+		  //.append('br')
+	var yInput = span.append('select')
 		  .attr('id','ySelect')
 		  .on('change',consChange)
 		.selectAll('option')
@@ -99,7 +104,7 @@ function createSelectionBoxes() {
 		  .enter()
 		.append('option')
 		  .attr('value', function (d) { return d.text })
-		  .text(function (d) { return d.text ;})
+		  .text(function (d) { return d.title ;})
 	body.append('br')
 }
 	
