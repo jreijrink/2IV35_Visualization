@@ -1,5 +1,5 @@
-var margin = {top: 50, right: 30, bottom: 25, left: 0},
-    width = 900 - margin.left - margin.right,
+var margin = {top: 50, right: 30, bottom: 25, left: -35},
+    width = 925 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
 var pcpX = d3.scale.ordinal().rangePoints([0, width], 1),

@@ -607,7 +607,7 @@ function createBarChart()
 	svg.append("text")
 	  .attr("class", "count")
       .text("Ratings: 0")
-	  .attr("x", width - 255)
+	  .attr("x", width - 275)
 	  .attr("y", -5)
 	  .attr("font-size", 18);
 	
