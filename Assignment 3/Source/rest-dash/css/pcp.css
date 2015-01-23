@@ -1,0 +1,57 @@
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+  position: absolute;
+}
+.myLine {
+  position: absolute;
+  z-index: 0;
+}
+.myLine:hover {
+  stroke: red;
+  position: absolute;
+  stroke-width: 3px;
+  z-index: -1;
+}
+
+.selectedLine  {
+  stroke: red !important;
+  position: absolute !important;
+  stroke-width: 3px;
+  z-index: -1;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
+}
+
+#tooltip { 
+	background-color: white;
+	padding: 3px 5px;
+	border: 1px solid black;
+	text-align: center;
+}
