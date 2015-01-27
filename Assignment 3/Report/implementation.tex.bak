@@ -1,1 +1,17 @@
-\section{implementation}\label{sec:implemenation}
+\section{Implementation}\label{sec:implemenation}
+For the implementation we decided to create a multiview application, consisting of 4 views.
+The first view shows a parallel coordinate plot.
+We decided to use this technique because we want to show more than 2 attributes.
+We want to show a user selected consumer and restaurant attribute plus the rating of that consumer for the specific restaurant.
+We could also use colors for the rating, but most attributes in the data set only have a few possible values, so there is a lot of overlap.
+The result of this overlap is that not all colors are visible.
+A parallel coordinate plot also shows dense regions better than other discussed techniques.
+The parallel coordinate plot allows the user to select a region on the axis to filter data.
+
+The second view is a map with all restaurants, users and their relation.
+When a filter is applied ..
+
+This interactive visualization will be able to answers both tasks to the user.
+
+
+
