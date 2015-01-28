@@ -17,33 +17,58 @@
 %%    \label{fig:task1q1}
 %%\end{figure}
 
+With the application fully implemented, we will use it to perform the tasks that were defined in Section \ref{subsec:chosentasks}, and will evaluate how suitable the application is for completing these tasks. We start with the first specific question of the first. For convenience we list the specific questions of the first task once more:
 
-task1 Q1
-seems to be that better rating when not part of franchise
-HOWEVER, is quantitative, not qualitative
-task1 Q2
-filter rest axis on internet, then move rating from 0 to 1 to 2. No significant difference
-task1 Q3
-only possible to see extreme outliers: Regional never got a 2, while coffee, Armenian and Contemporary never get a 0. Also bar/pub only received 2's (1 pub with 5 reviews in total when further investigating)
-task1 Q4
+Do restaurants receive a better rating when they
+\begin{enumerate}
+\setlength{\itemsep}{0cm}%
+\setlength{\parskip}{0cm}%
+\item are part of a franchise?
+\item provide internet?
+\item serve a certain cuisine?
+\item are located in a certain area?
+\end{enumerate}
 
+%%task1 Q1
+%%seems to be that better rating when not part of franchise
+%%HOWEVER, is quantitative, not qualitative
+For question 1 use the PCP and set its restaurant attribute to franchise (the consumer attribute can be arbitrary). We then filter this attribute on either true or false, and filter the rating on value 2. If we now switch the franchise filter from true to false, we see on the map that there are much more restaurants that are not part of a franchise that have received a rating of 2, than restaurant that are part of a franchise. This might indicate that restaurants that are not part of a franchise receive better ratings in general. However, this observation is only a quantitative one. it might for instance be that much less restaurants that are part of a franchise got reviewed, and therefore have less ratings of value 2. Then again, the fact that these restaurant get rated less often may say also something about their popularity.
 
-task2a Q1
-just see that less people in general visit restaurants that are part of franchise
-task2a Q2
-Seems like it: Jewish people only went to few types of restaurants. HOWEVER, could be that there are only very few jewish consumers. Further investigation (i.e., exploring the map) indeed shows there is only one jewish consumer that visited eight differnet restaurants. Same holds for Mormon. Christian bit more interesting: about 7 consumers that do not visit more than half of the cuisines (including chinese, Armenian, Japanese, Burgers, etc.)
+%%task1 Q2
+%%filter rest axis on internet, then move rating from 0 to 1 to 2. No significant difference
+...
 
+%%task1 Q3
+%%only possible to see extreme outliers: Regional never got a 2, while coffee, Armenian and Contemporary never get a 0. Also bar/pub only received 2's (1 pub with 5 reviews in total when further investigating)
+...
 
-task2b Q1
-no real correlation smoker - not permitted
-task2b Q2
-no record of consumers that drink a lot. only social. But again go to a lot of non-alcoholic restaurants and rate them good
-task2b Q3
-especially vry few high budget - low price occurrences. But they still rate them weel though (we do need to take quite some exploring to find this out: set pcp, browse map en manually count.
-task 2b Q4
-yes some do. According to data even someone that rated about ten restaurants far away that transports himself by foot -> can't be right
-also: quite some people with a car go to restaurant without parking lot. Does not need to say anything though: may not always go by car
+%%task1 Q4
+...
 
+%%task2a Q1
+%%just see that less people in general visit restaurants that are part of franchise
+...
+
+%%task2a Q2
+%%Seems like it: Jewish people only went to few types of restaurants. HOWEVER, could be that there are only very few jewish consumers. Further investigation (i.e., exploring the map) indeed shows there is only one jewish consumer that visited eight differnet restaurants. Same holds for Mormon. Christian bit more interesting: about 7 consumers that do not visit more than half of the cuisines (including chinese, Armenian, Japanese, Burgers, etc.)
+...
+
+%%task2b Q1
+%%no real correlation smoker - not permitted
+...
+
+%%task2b Q2
+%%no record of consumers that drink a lot. only social. But again go to a lot of non-alcoholic restaurants and rate them good
+...
+
+%%task2b Q3
+%%especially vry few high budget - low price occurrences. But they still rate them weel though (we do need to take quite some exploring to find this out: set pcp, browse map en manually count.
+...
+
+%%task 2b Q4
+%%yes some do. According to data even someone that rated about ten restaurants far away that transports himself by foot -> can't be right
+%%also: quite some people with a car go to restaurant without parking lot. Does not need to say anything though: may not always go by car
+...
 
 
 \subsection{Improvements}\label{sec:improvements}
