@@ -53,32 +53,46 @@ For question 2 we can take a similar approach as with question 1: we set the res
 When applying the approach of question 2 to question 3, we are not able to draw any clear conclusions. The only observations that we can make is that (the only) restaurant with a Regional cuisine never got a rating of 2 (by the two consumers that rated it), while restaurants of the cuisines Coffee (1 restaurant, rated by twelve consumers), Armenian (1 restaurant, rated by four consumers) and Contemporary (again 1 restaurant, rated by four consumers) never get a rating value of 0. The only Bar/Pub (rated by five consumers) even received only rating values of 2. In conclusion, we can say something about clear outliers regarding this question, although it needs some additional exploration of the map.
 
 %%task1 Q4
-...
+Question 4 finally seems to be to general to answer properly (or is too cumbersome to answer) using the application that is presented here. We are therefore not able to make any meaningful observations.
+
+For task 2 we will also quickly list the different specific questions we posed again:
+\begin{enumerate}
+\setlength{\itemsep}{0cm}%
+\setlength{\parskip}{0cm}%
+\item "Do younger people prefer restaurants that are part of a franchise?"
+\item "Do consumers of a certain religion prefer restaurants with a formal dress code?"
+\item "Are there non-smoking restaurants that are visited (and even well-rated) by consumers that smoke?"
+\item "Are there consumers with a high budget that visit restaurants with low prices? Do they like them? And what about the other way around?
+\item "Are there consumers that travel a long distance to visit a certain restaurant?"
+\end{enumerate}
 
 %%task2a Q1
 %%just see that less people in general visit restaurants that are part of franchise
-...
+In an attempt to answer the first of these questions we set the PCP restaurant attribute to 'Part of Franchis' again, and the consumer attribute to 'Year of Birth'. When we then filter all three of the axes and play around with these filters, we stumble upon the problem that there are much more positive, as well as negative ratings for restaurants that are not part of a franchise, but only due to fact that there exist much more restaurants that are not part of a franchise. Because of this, it becomes very hard to draw meaningful conclusions on whether there is a relation between these two attributes (if any).
 
 %%task2a Q2
-%%Seems like it: Jewish people only went to few types of restaurants. HOWEVER, could be that there are only very few jewish consumers. Further investigation (i.e., exploring the map) indeed shows there is only one jewish consumer that visited eight differnet restaurants. Same holds for Mormon. Christian bit more interesting: about 7 consumers that do not visit more than half of the cuisines (including chinese, Armenian, Japanese, Burgers, etc.)
-...
+When investigating question 2 of task 2, we encounter a similar problem as with question 1. Though it appears at first sight that there are no Jewish people that visit restaurants with a formal dress code, further investigation (i.e., exploring the map) reveals that among all consumers there is only one that is Jewish. When looking at Christian people (seven in total), we can actually clearly observe a pretty strong preference for restaurants with an informal dress code. This does however require somewhat cumbersome exploration of the map.
 
 %%task2b Q1
 %%no real correlation smoker - not permitted
-...
-
-%%task2b Q2
-%%no record of consumers that drink a lot. only social. But again go to a lot of non-alcoholic restaurants and rate them good
-...
+Though one may expect that smoking consumers will not regularly visit restaurants where smoking is not permitted, investigation of this specific question using our multi-view application assures us that we can reject this hypothesis. This is because quite a lot of smoking consumers visit restaurants where smoking is not permitted, and often even rate them with a value 2.
 
 %%task2b Q3
-%%especially vry few high budget - low price occurrences. But they still rate them weel though (we do need to take quite some exploring to find this out: set pcp, browse map en manually count.
-...
+%%especially vry few high budget - low price occurrences. But they still rate them well though (we do need to take quite some exploring to find this out: set pcp, browse map en manually count.
+When comparing the price of restaurants with the budget of consumers, we can see that there are especially very little consumers with a high budget that go to a restaurant with low prices. We do however notice as well that when these consumers visit a low price restaurants, they still give them quite high ratings. The other way around it seems that still quite a lot of people visit expensive restaurants (at least some times). Discovering how they rate these restaurants is not very practical in the current application.
 
 %%task 2b Q4
 %%yes some do. According to data even someone that rated about ten restaurants far away that transports himself by foot -> can't be right
 %%also: quite some people with a car go to restaurant without parking lot. Does not need to say anything though: may not always go by car
-...
+The map can finally give a quick answer to the last question of task 2, due to the drawing of the rating lines in the map when a restaurant or consumer is selected. When exploring this data, one peculiar instance popped up. There namely appeared to be a consumer that travels by foot, but visits numerous restaurants that are located quite far away (see Figure \ref{fig:task2q5}). Logical reasoning led to the conclusion that this may very well be an error in the data set.
+
+\begin{figure}[h]
+    \centering
+    \captionsetup{justification=centering,margin=0.5cm}
+    \includegraphics[width=.8\textwidth]{img/task2q5.jpg}
+    \caption{An odd outlier in the data set: a consumer that travels by foot, but visits numerous restaurants that are located far away.}
+    \label{fig:task2q5}
+\end{figure}
 
 
 \subsection{Improvements}\label{sec:improvements}
