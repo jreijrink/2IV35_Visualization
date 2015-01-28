@@ -82,11 +82,21 @@ When applying the approach of question 2 to question 3, we are not able to draw 
 
 
 \subsection{Improvements}\label{sec:improvements}
-- display the total number of selected lines in the PCP
-\\- ...
 
+The application offers a good visualization to perform the tasks, but there are still a few things that would improve the usability.
+Showing the total number of filtered lines in the PCP gives a quick overview of the volume.
+In the PCP it is hard to see how many lines are filtered because, in general, there are not many different attribute values on a axis.
 
+By selecting a line in the PCP, the interaction of selecting could work in two directions.
+In the current application only markers in the map can be selected, the result is then also shown in the PCP.
+If the user can select a line, or multiple lines, this can then be shown in the map.
+This way lines with same attribute characteristics can be visualized on the map.
+Just like selecting multiple lines, selecting multiple markers in the map could improve usability.
+When multiple markers are selected they can easily be compared in the map or PCP.
 
+When the selected attribute of a PCP axis changes, the marker selection in the map and active PCP filters are removed.
+It would be convenient to keep the marker selection and the filter applied if it is not the axis that is updated.
+This way the filters and selection marker do not have to be reconfigured each time the attribute of another axis changes.
 
-
-
+Finally, the order of the attribute values have to be defined.
+The order of the axis is currently sorted alphabetically, in some cases this results in an unnatural order.
